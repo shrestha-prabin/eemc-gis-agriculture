@@ -24,7 +24,7 @@
             android:title="Weather Timeline" />
         <item
             android:id="@+id/nav_recommendations"
-            android:icon="@drawable/ic_menu_manage"
+            android:icon="@drawable/nav_ic_bulb"
             android:title="Recommendations" />
     </group>
 

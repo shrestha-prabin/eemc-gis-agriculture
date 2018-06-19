@@ -1,9 +1,12 @@
 <resources>
     <string name="app_name">AgricultureArcGIS</string>
-    <string name="title_activity_main2">MainActivity</string>
-
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="action_settings">Settings</string>
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="nav_item_1">Distribution</string>
+    <string name="nav_item_2">Geography</string>
+    <string name="nav_item_3">Roads/River</string>
+    <string name="nav_item_4">Weather</string>
+    <string name="nav_item_5">Guides</string>
 </resources>

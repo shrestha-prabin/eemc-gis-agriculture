@@ -1,9 +1,10 @@
-package com.example.prabin.agriculturearcgis;
+package com.example.prabin.agriculturearcgis.Data;
 
 import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.esri.arcgisruntime.geometry.Point;
+import com.esri.arcgisruntime.geometry.SpatialReferences;
 
 /**
  * Created by Prabin on 6/16/2018.
@@ -25,66 +26,66 @@ public enum District {
     SINDHULI,
     SINDUPALCHOWK;
 
-    Point namePosition() {
-        int x, y;
+    public Point namePosition() {
+        double x, y;
         switch (this) {
             case BHAKTAPUR:
-                x = 9510;
-                y = 3207;
+                x = 85.441398;
+                y = 27.677074;
                 break;
             case CHITWAN:
-                x = 9405;
-                y = 3195;
+                x = 84.397460;
+                y = 27.538103;
                 break;
             case DHADING:
-                x = 9450;
-                y = 3245;
+                x = 84.900669;
+                y = 27.789098;
                 break;
             case DOLAKHA:
-                x = 9600;
-                y = 3215;
+                x = 86.240614;
+                y = 27.770542;
                 break;
             case KATHMANDU:
-                x = 9505;
-                y = 3215;
+                x = 85.389680;
+                y = 27.752374;
                 break;
             case KAVREPALANCHOWK:
-                x = 9530;
-                y = 3190;
+                x = 85.62315212;
+                y = 27.54538605;
                 break;
             case LALITPUR:
-                x = 9500;
-                y = 3185;
+                x = 85.338210;
+                y = 27.492351;
                 break;
             case MAKWANPUR:
-                x = 9460;
-                y = 3180;
+                x = 85.0550812;
+                y = 27.43653885;
                 break;
             case NUWAKOT:
-                x = 9485;
-                y = 3230;
+                x = 85.223430;
+                y = 27.884976;
                 break;
             case RAMECHHAP:
-                x = 9580;
-                y = 3175;
+                x = 86.012949;
+                y = 27.411731;
                 break;
             case RASUWA:
-                x = 9510;
-                y = 3275;
+                x = 85.459565;
+                y = 28.200199;
                 break;
             case SINDHULI:
-                x = 9560;
-                y = 3150;
+                x = 85.779532;
+                y = 27.270524;
                 break;
             case SINDUPALCHOWK:
-                x = 9545;
-                y = 3240;
+                x = 85.7063055;
+                y = 27.9259127;
                 break;
             default:
                 x = 0;
                 y = 0;
                 break;
         }
-        return new Point(x * 1000, y * 1000);
+        return new Point(x, y, SpatialReferences.getWgs84());
     }
 }

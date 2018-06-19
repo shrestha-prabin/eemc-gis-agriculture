@@ -13,6 +13,7 @@ import com.esri.arcgisruntime.symbology.SimpleFillSymbol;
 import com.esri.arcgisruntime.symbology.SimpleLineSymbol;
 import com.esri.arcgisruntime.symbology.TextSymbol;
 import com.esri.arcgisruntime.symbology.TextSymbol.VerticalAlignment;
+import com.example.prabin.agriculturearcgis.Data.District;
 import com.example.prabin.agriculturearcgis.HelperClasses.HelperClass;
 import com.example.prabin.agriculturearcgis.HelperClasses.JsonReader;
 
@@ -67,6 +68,10 @@ public class DrawPolygon {
 
     public void setDistricts(District[] locationList, boolean showNames) {
 
+        if(mMapView == null) {
+            return;
+        }
+
         GraphicsOverlay polygonOverlay = new GraphicsOverlay();
         mMapView.getGraphicsOverlays().add(polygonOverlay);
 
@@ -80,18 +85,17 @@ public class DrawPolygon {
             SimpleLineSymbol lineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, borderColor, 1);
             SimpleFillSymbol fillSymbol = new SimpleFillSymbol(SimpleFillSymbol.Style.SOLID, fillColor, lineSymbol);
 
-            String loc = location.name().toLowerCase();//files are named in lowercase
+            String name = location.name().toLowerCase();//files are named in lowercase
             try {
                 //create polygon by fetching the json form assets
                 Polygon polygon = (Polygon) Polygon.fromJson(new JsonReader()
-                        .getJsonFromAssets(mContext, loc + ".json").toString());
+                        .getJsonFromAssets(mContext, name + ".json").toString());
+
                 polygonOverlay.getGraphics().add(new Graphic(polygon, fillSymbol));
 
                 if(showNames) {
                     Point pt = location.namePosition();
-                    Log.d("xy", pt.getX() + " , " + pt.getY());
-
-                    TextSymbol textSymbol = new TextSymbol(10, HelperClass.toSentenceCase(loc), Color.WHITE,
+                    TextSymbol textSymbol = new TextSymbol(10, HelperClass.toSentenceCase(name), Color.WHITE,
                             TextSymbol.HorizontalAlignment.CENTER, VerticalAlignment.BOTTOM);
 
                     Graphic gr = new Graphic(pt, textSymbol);
@@ -99,7 +103,7 @@ public class DrawPolygon {
                 }
 
             } catch (NullPointerException e) {
-                Log.e("DrawPolygon", loc + " polygon not found");
+                Log.e("DrawPolygon", name + " polygon not found");
             }
         }
     }

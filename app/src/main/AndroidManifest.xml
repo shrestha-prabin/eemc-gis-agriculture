@@ -17,13 +17,7 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".MainActivity"
-            android:configChanges="orientation|screenSize">
-        </activity>
-        <activity
-            android:name=".MainActivity2"
-            android:label="@string/title_activity_main2"
-            android:theme="@style/AppTheme"
-            android:configChanges="orientation|screenSize">
+            android:configChanges="orientation|screenSize" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
