@@ -4,14 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.prabin.agriculturearcgis.MainActivity"
-    android:orientation="vertical"
-    android:weightSum="3">
+    tools:context="com.example.prabin.agriculturearcgis.MainActivity">
 
     <com.esri.arcgisruntime.mapping.view.MapView
         android:id="@+id/main_mapview"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent" />
 
     <com.aurelhubert.ahbottomnavigation.AHBottomNavigation
         android:id="@+id/main_bottom_navigation"
@@ -21,5 +19,69 @@
         android:alpha="0.8"
         app:layout_constraintBottom_toBottomOf="parent" />
 
+    <android.support.v7.widget.CardView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="48dp"
+        android:animateLayoutChanges="true"
+        android:background="@color/transparentWhite"
+        app:cardCornerRadius="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="4dp">
+
+            <Button
+                android:id="@+id/main_button_layer_select"
+                android:background="?android:attr/selectableItemBackgroundBorderless"
+                android:layout_width="26dp"
+                android:layout_height="26dp"
+                android:padding="4dp"
+                android:gravity="center_vertical"
+                android:drawableStart="@drawable/ic_layers_black"
+                android:backgroundTint="@color/colorPrimary" />
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:layout_margin="4dp"
+                android:background="@color/grey" />
+
+            <Button
+                android:id="@+id/main_button_crop_select"
+                android:background="?android:attr/selectableItemBackgroundBorderless"
+                android:layout_width="wrap_content"
+                android:layout_height="26dp"
+                android:padding="4dp"
+                android:backgroundTint="@color/colorPrimary"
+                android:drawableStart="@drawable/ic_crop_wheat"
+                android:gravity="start|center_vertical"
+                android:text="Crop"
+                android:drawablePadding="8dp"
+                android:textAllCaps="false"
+                android:textColor="@color/colorPrimary"/>
+
+            <Button
+                android:id="@+id/main_button_geo_property"
+                android:background="?android:attr/selectableItemBackgroundBorderless"
+                android:layout_width="wrap_content"
+                android:layout_height="26dp"
+                android:padding="4dp"
+                android:backgroundTint="@color/colorPrimary"
+                android:drawableStart="@drawable/nav_ic_geography"
+                android:gravity="start|center_vertical"
+                android:text="Geography"
+                android:drawablePadding="8dp"
+                android:textAllCaps="false"
+                android:textColor="@color/colorPrimary"/>
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
 
 </android.support.constraint.ConstraintLayout>

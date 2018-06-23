@@ -6,10 +6,14 @@
 
     <color name="transparent_blue">#7f4e7dff</color>
 
-    <!--&lt;!&ndash;<color name="nav_distribution">#434546</color>-->
+    <!--<color name="nav_distribution">#434546</color>-->
     <!--<color name="nav_geography">#008314</color>-->
     <!--<color name="nav_road">#006083</color>-->
     <!--<color name="nav_weather">#831f00</color>-->
-    <!--<color name="nav_guide">#837f00</color>&ndash;&gt;-->
+    <!--<color name="nav_guide">#837f00</color>-->
+
+    <color name="transparentWhite">#89ffffff</color>
+
+    <color name="grey">#d4d4d4</color>
 
 </resources>

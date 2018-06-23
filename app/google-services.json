@@ -1,0 +1,59 @@
+{
+  "project_info": {
+    "project_number": "931805756346",
+    "firebase_url": "https://agriculturearcgis.firebaseio.com",
+    "project_id": "agriculturearcgis",
+    "storage_bucket": "agriculturearcgis.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:931805756346:android:9c3453dd70f7a490",
+        "android_client_info": {
+          "package_name": "com.example.prabin.agriculturearcgis"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "931805756346-nvuin4tdmq1lunngafs0hqf0m05m550k.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.prabin.agriculturearcgis",
+            "certificate_hash": "fe5d3fd308d47c14d56d30c24118439682311622"
+          }
+        },
+        {
+          "client_id": "931805756346-tme4t0qvd94dohndkrqqkk2pv8ao28l0.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "931805756346-tme4t0qvd94dohndkrqqkk2pv8ao28l0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAYGfvvmCUR8EJq0AAnV-Djb4BBmGP05wQ"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "931805756346-tme4t0qvd94dohndkrqqkk2pv8ao28l0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
