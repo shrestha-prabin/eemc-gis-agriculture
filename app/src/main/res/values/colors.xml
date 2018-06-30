@@ -5,6 +5,7 @@
     <color name="colorAccent">#00a5a7</color>
 
     <color name="transparent_blue">#7f4e7dff</color>
+    <color name="transparent_black">#12000000</color>
 
     <!--<color name="nav_distribution">#434546</color>-->
     <!--<color name="nav_geography">#008314</color>-->

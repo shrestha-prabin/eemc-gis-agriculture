@@ -6,6 +6,24 @@ package com.example.prabin.agriculturearcgis.Data;
 
 public class DistrictData {
 
+    public static class State3 {
+
+        int bhaktapur = 0;
+        int chitwan = 0;
+        int dhading = 0;
+        int kathmandu = 0;
+        int kavreplanchauk = 0;
+        int ramechhap = 0;
+        int lalitpur = 0;
+        int makwanpur = 0;
+        int nuwakot = 0;
+        int rasuwa = 0;
+        int sindhuli = 0;
+        int sindhupalchauk = 0;
+        int dolakha = 0;
+    }
+
+    int rauthat = 0;
     int taplejung = 0;
     int panchthar = 0;
     int ilam = 0;
@@ -25,22 +43,9 @@ public class DistrictData {
     int dhanusa = 0;
     int mahottari = 0;
     int sarlahi = 0;
-    int sindhuli = 0;
-    int ramechhap = 0;
     int dolkha = 0;
-    int sindhupalchauk = 0;
-    int kavreplanchauk = 0;
-    int lalitpur = 0;
-    int bhaktapur = 0;
-    int kathmandu = 0;
-    int nuwakot = 0;
-    int rasuwa = 0;
-    int dhading = 0;
-    int makwanpur = 0;
-    int rauthat = 0;
     int bara = 0;
     int parsa = 0;
-    int chitwan = 0;
     int gorkha = 0;
     int lamjung = 0;
     int tanahun = 0;

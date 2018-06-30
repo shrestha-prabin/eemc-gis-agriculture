@@ -3,17 +3,24 @@ package com.example.prabin.agriculturearcgis;
 import android.app.Dialog;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
+import com.esri.arcgisruntime.data.ShapefileFeatureTable;
 import com.esri.arcgisruntime.geometry.Envelope;
 import com.esri.arcgisruntime.geometry.SpatialReferences;
+import com.esri.arcgisruntime.layers.FeatureLayer;
+import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.Basemap;
+import com.esri.arcgisruntime.mapping.Viewpoint;
 import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
 import com.esri.arcgisruntime.mapping.view.MapRotationChangedEvent;
 import com.esri.arcgisruntime.mapping.view.MapRotationChangedListener;
@@ -34,13 +41,12 @@ public class MainActivity extends AppCompatActivity {
     private AHBottomNavigation mBottomNavigation;
 
     private Button mBtnLayerSelector;
+    private Button mBtnLegendSelector;
     private Button mBtnCropSelector;
     private Button mBtnGeoPropertySelector;
 
     private Envelope createEnvelope() {
-
         Envelope envelope = new Envelope(78.72803, 30.93050, 89.63745, 26.10612, SpatialReferences.getWgs84());
-
         return envelope;
     }
 
@@ -53,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
         mBottomNavigation = findViewById(R.id.main_bottom_navigation);
 
         mBtnLayerSelector = findViewById(R.id.main_button_layer_select);
+        mBtnLegendSelector = findViewById(R.id.main_button_legend_toggle);
         mBtnCropSelector = findViewById(R.id.main_button_crop_select);
         mBtnGeoPropertySelector = findViewById(R.id.main_button_geo_property);
 
@@ -63,6 +70,9 @@ public class MainActivity extends AppCompatActivity {
         //remove esri footer
         mMapView.setAttributionTextVisible(false);
 
+        //hide legend
+        findViewById(R.id.main_legend).setVisibility(View.GONE);
+
         //hide selector buttons of navigation except for first
         mBtnGeoPropertySelector.setVisibility(View.GONE);
 
@@ -72,13 +82,13 @@ public class MainActivity extends AppCompatActivity {
                 mMapView.setViewpointRotationAsync(0);
             }
         });
-
+        /*
         mMapView.addNavigationChangedListener(new NavigationChangedListener() {
             @Override
             public void navigationChanged(NavigationChangedEvent navigationChangedEvent) {
                 //mMapView.setViewpointGeometryAsync(createEnvelope(), 2);
             }
-        });
+        });*/
 
         mMap = new ArcGISMap(Basemap.createLightGrayCanvas());
         mMap.setMinScale(10000000);//zoom out scale
@@ -98,7 +108,7 @@ public class MainActivity extends AppCompatActivity {
                 District.NUWAKOT.name(), District.RAMECHHAP.name(), District.RASUWA.name(), District.SINDHULI.name(), District.SINDUPALCHOWK.name()};
 
         List<String> location = new ArrayList<>(Arrays.asList(locationList));
-        new DrawPolygon(this).setDistricts(location, Color.rgb(80,90,100), true);
+        new DrawPolygon(this).setDistricts(location, Color.rgb(80,90,100), true, Color.WHITE);
 
         mBtnLayerSelector.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -203,16 +213,21 @@ public class MainActivity extends AppCompatActivity {
 
                 //Hide all views first and making those visible which are necessary for given navigation item
                 mBtnCropSelector.setVisibility(View.GONE);
+                mBtnLegendSelector.setVisibility(View.GONE);
                 mBtnGeoPropertySelector.setVisibility(View.GONE);
+
 
                 switch (position) {
                     case 0:
                         mBtnCropSelector.setVisibility(View.VISIBLE);
+                        mBtnLegendSelector.setVisibility(View.VISIBLE);
                         break;
                     case 1:
                         mBtnGeoPropertySelector.setVisibility(View.VISIBLE);
+                        mBtnLegendSelector.setVisibility(View.VISIBLE);
                         break;
                     case 2:
+                        //loadFeatureShapeFile();
                         break;
                     case 3:
                         break;
@@ -222,6 +237,29 @@ public class MainActivity extends AppCompatActivity {
                         break;
                 }
                 return true;
+            }
+        });
+    }
+
+    private void loadFeatureShapeFile() {
+        final ShapefileFeatureTable shapefileFeatureTable = new ShapefileFeatureTable("assets/trans_pt.shp");
+        shapefileFeatureTable.loadAsync();
+        shapefileFeatureTable.addDoneLoadingListener(new Runnable() {
+            @Override
+            public void run() {
+                if (shapefileFeatureTable.getLoadStatus() == LoadStatus.LOADED) {
+                    // create a feature layer to display the shapefile
+                    FeatureLayer shapefileFeatureLayer = new FeatureLayer(shapefileFeatureTable);
+
+                    // add the feature layer to the map
+                    mMapView.getMap().getOperationalLayers().add(shapefileFeatureLayer);
+
+                    // zoom the map to the extent of the shapefile
+                    //mMapView.setViewpointAsync(new Viewpoint(shapefileFeatureLayer.getFullExtent()));
+                } else {
+                    String error = "Shapefile feature table failed to load: " + shapefileFeatureTable.getLoadError().toString();
+                    Toast.makeText(MainActivity.this, error, Toast.LENGTH_LONG).show();
+                }
             }
         });
     }

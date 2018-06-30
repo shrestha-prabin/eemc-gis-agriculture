@@ -71,7 +71,7 @@ public class DrawPolygon {
 
     }
 
-    public void setDistricts(List<String> locationList, int fillColor, boolean showNames) {
+    public void setDistricts(List<String> locationList, int fillColor, boolean showNames, int textColor) {
 
         if (mMapView == null) {
             return;
@@ -90,7 +90,7 @@ public class DrawPolygon {
             //int fillColor = generateRandomColor();
 
             SimpleLineSymbol lineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, borderColor, 1);
-            SimpleFillSymbol fillSymbol = new SimpleFillSymbol(SimpleFillSymbol.Style.SOLID, fillColor, lineSymbol);
+            SimpleFillSymbol fillSymbol = new SimpleFillSymbol(SimpleFillSymbol.Style.SOLID, fillColor, lineSymbol);//fill color
 
             String name = location.toLowerCase();//files are named in lowercase
             try {
@@ -106,7 +106,7 @@ public class DrawPolygon {
                     District locationEnum = District.valueOf(location.toUpperCase());   //enum values are in upper case,
                     // enum used since location position is in enum declaration
                     Point pt = locationEnum.namePosition();
-                    TextSymbol textSymbol = new TextSymbol(10, HelperClass.toSentenceCase(name), Color.WHITE,
+                    TextSymbol textSymbol = new TextSymbol(10, HelperClass.toSentenceCase(name), textColor,
                             TextSymbol.HorizontalAlignment.CENTER, VerticalAlignment.BOTTOM);
 
                     Graphic gr = new Graphic(pt, textSymbol);
@@ -138,8 +138,8 @@ public class DrawPolygon {
         ListenableList<GraphicsOverlay> overlays = mMapView.getGraphicsOverlays();
         //Toast.makeText(mContext, "Overlay count: " + overlays.size(), Toast.LENGTH_SHORT).show();
 
-        while (overlays.size() >= 3) {
-            overlays.remove(overlays.size() - 1);     //remove top until size is less than 4, 3 are defined initially
+        while (overlays.size() >= 4) {
+            overlays.remove(overlays.size() - 1);     //remove top until size is less than 5, 4 are defined initially
         }
     }
 }

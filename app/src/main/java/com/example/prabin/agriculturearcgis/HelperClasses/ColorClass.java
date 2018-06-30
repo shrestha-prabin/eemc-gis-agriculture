@@ -20,12 +20,12 @@ public class ColorClass {
         int green = color.green;
         int blue = color.blue;
 
-        List<Integer> colors = new ArrayList<>();
 
         int rFactor = Math.round((255 - red) / 6);
         int gFactor = Math.round((255 - green) / 6);
         int bFactor = Math.round((255 - blue) / 6);
 
+        List<Integer> colors = new ArrayList<>();
         for (int i = 1; i <= 6; i++) {
 
             int r = red + rFactor * i;
