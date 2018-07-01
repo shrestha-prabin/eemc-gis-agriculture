@@ -78,15 +78,17 @@ public enum State {
 
     }
 
-    public District[] getDistricts() {
+    public String[] getDistricts() {
 
-        District[] districtList;
+        String[] districtList;
 
         switch (this) {
             case STATE_3:
-                districtList = new District[]{District.BHAKTAPUR, District.CHITWAN, District.DHADING, District.DOLAKHA,
-                        District.KATHMANDU, District.KAVREPALANCHOWK, District.LALITPUR, District.MAKWANPUR, District.NUWAKOT,
-                        District.RAMECHHAP, District.RAMECHHAP, District.SINDHULI, District.SINDUPALCHOWK};
+                districtList = new String[]{District.BHAKTAPUR.name(), District.CHITWAN.name(), District.DHADING.name(),
+                        District.DOLAKHA.name(), District.KATHMANDU.name(), District.KAVREPALANCHOWK.name(),
+                        District.LALITPUR.name(), District.MAKWANPUR.name(), District.NUWAKOT.name(),
+                        District.RAMECHHAP.name(), District.RAMECHHAP.name(), District.SINDHULI.name(),
+                        District.SINDUPALCHOWK.name()};
                 break;
             default:
                 Log.e("State_List", "Error");

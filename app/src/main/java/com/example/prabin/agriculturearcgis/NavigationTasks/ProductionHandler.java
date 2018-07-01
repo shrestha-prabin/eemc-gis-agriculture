@@ -1,4 +1,4 @@
-package com.example.prabin.agriculturearcgis;
+package com.example.prabin.agriculturearcgis.NavigationTasks;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -14,9 +14,11 @@ import android.widget.TextView;
 
 import com.esri.arcgisruntime.mapping.view.MapView;
 import com.example.prabin.agriculturearcgis.Data.DistrictData;
+import com.example.prabin.agriculturearcgis.DrawPolygon;
 import com.example.prabin.agriculturearcgis.HelperClasses.ColorClass;
 import com.example.prabin.agriculturearcgis.HelperClasses.ColorRGB;
 import com.example.prabin.agriculturearcgis.HelperClasses.HelperClass;
+import com.example.prabin.agriculturearcgis.R;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -39,12 +41,12 @@ public class ProductionHandler {
     private Button mBtnLegendToggle;
     private MapView mMapView;
 
-
     public ProductionHandler(final Context mContext) {
         this.mContext = mContext;
 
         mBtnCropSelector = ((Activity) mContext).findViewById(R.id.main_button_crop_select);
         mBtnLegendToggle = ((Activity) mContext).findViewById(R.id.main_button_legend_toggle);
+        mBtnLegendToggle.setVisibility(View.GONE);
 
         mMapView = ((Activity) mContext).findViewById(R.id.main_mapview);
 
@@ -58,13 +60,17 @@ public class ProductionHandler {
         mBtnLegendToggle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (((Activity) mContext).findViewById(R.id.main_legend).getVisibility() == View.VISIBLE) {
-                    ((Activity) mContext).findViewById(R.id.main_legend).setVisibility(View.GONE);
-                } else {
-                    ((Activity) mContext).findViewById(R.id.main_legend).setVisibility(View.VISIBLE);
-                }
+                toggleLegend();
             }
         });
+    }
+
+    private void toggleLegend() {
+        if (((Activity) mContext).findViewById(R.id.main_legend).getVisibility() == View.VISIBLE) {
+            ((Activity) mContext).findViewById(R.id.main_legend).setVisibility(View.GONE);
+        } else {
+            ((Activity) mContext).findViewById(R.id.main_legend).setVisibility(View.VISIBLE);
+        }
     }
 
     private void takeInputFromUser() {
@@ -83,6 +89,7 @@ public class ProductionHandler {
 
                 new DrawPolygon(mContext).removePolygonAndTextOverlays();
                 paintMapForCrop(crop, color);
+                mBtnLegendToggle.setVisibility(View.VISIBLE);
             }
         });
         builder.show();
@@ -204,6 +211,7 @@ public class ProductionHandler {
         tv3.setText(lv3 + " - " + lv2);
         tv2.setText("Less than " + lv2);
         tv1.setText("No Production");
+        ((Activity) mContext).findViewById(R.id.main_legend).setVisibility(View.VISIBLE);
     }
 
 }

@@ -8,102 +8,155 @@
 
     <com.esri.arcgisruntime.mapping.view.MapView
         android:id="@+id/main_mapview"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <com.aurelhubert.ahbottomnavigation.AHBottomNavigation
         android:id="@+id/main_bottom_navigation"
         android:layout_width="match_parent"
-        android:layout_height="48dp"
+        android:layout_height="50dp"
         android:layout_gravity="bottom"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <android.support.v7.widget.CardView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="48dp"
+        android:id="@+id/top_card"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
         android:animateLayoutChanges="true"
         android:background="@color/transparentWhite"
-        app:cardCornerRadius="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <LinearLayout
+        <android.support.constraint.ConstraintLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="4dp">
+            android:layout_height="match_parent"
+            android:layout_gravity="center_horizontal"
+            android:orientation="horizontal">
 
             <Button
                 android:id="@+id/main_button_layer_select"
                 android:layout_width="26dp"
-                android:layout_height="26dp"
-                android:layout_margin="4dp"
+                android:layout_height="0dp"
+                android:layout_marginStart="8dp"
                 android:background="?android:attr/selectableItemBackgroundBorderless"
                 android:backgroundTint="@color/colorPrimary"
                 android:drawableStart="@drawable/ic_layers_black"
                 android:gravity="center_vertical"
-                android:padding="4dp" />
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <Button
                 android:id="@+id/main_button_legend_toggle"
                 android:layout_width="26dp"
-                android:layout_height="26dp"
-                android:layout_margin="4dp"
+                android:layout_height="0dp"
+                android:layout_marginStart="8dp"
                 android:background="?android:attr/selectableItemBackgroundBorderless"
                 android:backgroundTint="@color/colorPrimary"
-                android:drawableStart="@drawable/ic_main_legend"
+                android:drawableStart="@drawable/ic_icon_legend"
                 android:gravity="center_vertical"
-                android:padding="4dp" />
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/main_button_layer_select"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <View
+                android:id="@+id/view"
                 android:layout_width="1dp"
                 android:layout_height="match_parent"
-                android:layout_margin="4dp"
-                android:background="@color/grey" />
+                android:layout_marginBottom="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:background="@color/grey"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/main_button_legend_toggle"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <Button
                 android:id="@+id/main_button_crop_select"
                 android:layout_width="wrap_content"
-                android:layout_height="26dp"
-                android:layout_margin="4dp"
+                android:layout_height="0dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
                 android:background="?android:attr/selectableItemBackgroundBorderless"
                 android:backgroundTint="@color/colorPrimary"
                 android:drawablePadding="8dp"
                 android:drawableStart="@drawable/ic_crop_wheat"
                 android:gravity="start|center_vertical"
-                android:padding="4dp"
                 android:text="Crop"
                 android:textAllCaps="false"
-                android:textColor="@color/colorPrimary" />
+                android:textColor="@color/colorPrimary"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/view"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0" />
 
             <Button
                 android:id="@+id/main_button_geo_property"
                 android:layout_width="wrap_content"
-                android:layout_height="26dp"
-                android:layout_margin="4dp"
+                android:layout_height="0dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
                 android:background="?android:attr/selectableItemBackgroundBorderless"
                 android:backgroundTint="@color/colorPrimary"
                 android:drawablePadding="8dp"
                 android:drawableStart="@drawable/nav_ic_geography"
                 android:gravity="start|center_vertical"
-                android:padding="4dp"
                 android:text="Geography"
                 android:textAllCaps="false"
-                android:textColor="@color/colorPrimary" />
-        </LinearLayout>
+                android:textColor="@color/colorPrimary"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/view"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <Button
+                android:id="@+id/main_button_infrastructure"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:background="?android:attr/selectableItemBackgroundBorderless"
+                android:backgroundTint="@color/colorPrimary"
+                android:drawablePadding="8dp"
+                android:drawableStart="@drawable/nav_ic_road"
+                android:gravity="start|center_vertical"
+                android:text="Infrastructures"
+                android:textAllCaps="false"
+                android:textColor="@color/colorPrimary"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/view"
+                app:layout_constraintTop_toTopOf="parent" />
+        </android.support.constraint.ConstraintLayout>
     </android.support.v7.widget.CardView>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/main_locationFAB"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:src="@drawable/ic_my_location_black"
+        app:backgroundTint="@color/cardview_light_background"
+        app:layout_constraintBottom_toTopOf="@+id/main_bottom_navigation"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <include
         android:id="@+id/main_legend"
         layout="@layout/legend_chart"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="56dp"
-        android:layout_marginEnd="16dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        android:layout_marginBottom="8dp"
+        android:layout_marginStart="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/main_bottom_navigation"
+        app:layout_constraintStart_toStartOf="parent" />
 </android.support.constraint.ConstraintLayout>

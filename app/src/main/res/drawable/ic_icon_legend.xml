@@ -1,0 +1,4 @@
+<vector android:height="24dp" android:viewportHeight="488"
+    android:viewportWidth="470" android:width="24dp" xmlns:android="http://schemas.android.com/apk/res/android">
+    <path android:fillColor="#000" android:name="download" android:pathData="m214 384c14.7 2.6 34.5 1 51 1c31.7 0 63.3 0 95 0c0 21.3 0 42.7 0 64c-1.6 0.6 -2.4 0.9 -5 1c-2.4 -2.1 -10.8 -1 -15 -1c-14 0 -28 0 -42 0c-54.4 0 -111.3 -0.4 -164 1c0 -89 0 -178 0 -267c0 -29 0 -58 0 -87c0 -18.1 0.5 -38.5 -1 -55c6.3 -2.3 17.9 -1 26 -1c18 0 36 0 54 0c2.9 7.9 1 22.3 1 32c0 23.3 0 46.7 0 70c0 78.7 0 157.3 0 236c-0.3 0 -0.7 0 -1 0c0 0.3 0 0.7 0 1c0.3 0 0.7 0 1 0c0 1.7 0 3.3 0 5z"/>
+</vector>

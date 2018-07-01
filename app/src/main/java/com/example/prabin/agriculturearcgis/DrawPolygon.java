@@ -30,35 +30,26 @@ import java.util.Random;
 
 public class DrawPolygon {
 
-    Context mContext;
-    MapView mMapView;
+    private Context mContext;
+    private MapView mMapView;
+
+    private static final String TAG = "DRAW_POLYGON";
 
     public DrawPolygon(Context mContext) {
         this.mContext = mContext;
         mMapView = ((Activity) mContext).findViewById(R.id.main_mapview);
     }
 
-    public void setDistrict(String location) {
+    public void setPolygon(String location) {
 
-        int r = new Random().nextInt(256);
-        int g = new Random().nextInt(256);
-        int b = new Random().nextInt(256);
-
-        int color = Color.rgb(r, g, b);
-        int borderColor = color;
-
-        r = new Random().nextInt(256);
-        g = new Random().nextInt(256);
-        b = new Random().nextInt(256);
-
-        color = Color.rgb(r, g, b);
-        int fillColor = color;
+        int borderColor = Color.rgb(100, 100, 100);
 
         GraphicsOverlay overlay = new GraphicsOverlay();
         mMapView.getGraphicsOverlays().add(overlay);
 
-        SimpleLineSymbol lineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, borderColor, 1);
-        SimpleFillSymbol fillSymbol = new SimpleFillSymbol(SimpleFillSymbol.Style.SOLID, fillColor, lineSymbol);
+        SimpleLineSymbol lineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.DASH_DOT, borderColor, 2);
+        SimpleFillSymbol fillSymbol = new SimpleFillSymbol(SimpleFillSymbol.Style.SOLID,
+                Color.argb(0, 0, 0, 0), lineSymbol);
         try {
             //create polygon by fetching the json form assets
             Polygon polygon = (Polygon) Polygon.fromJson(new JsonReader()
@@ -66,7 +57,7 @@ public class DrawPolygon {
             overlay.getGraphics().add(new Graphic(polygon, fillSymbol));
 
         } catch (NullPointerException e) {
-            Log.e("DrawPolygon", location + " polygon not found");
+            Log.e(TAG, location + " polygon not found");
         }
 
     }
@@ -87,7 +78,6 @@ public class DrawPolygon {
 
         for (String location : locationList) {
             int borderColor = generateRandomColor();
-            //int fillColor = generateRandomColor();
 
             SimpleLineSymbol lineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, borderColor, 1);
             SimpleFillSymbol fillSymbol = new SimpleFillSymbol(SimpleFillSymbol.Style.SOLID, fillColor, lineSymbol);//fill color
@@ -102,21 +92,17 @@ public class DrawPolygon {
                 //polygonOverlay.getGraphics().add(new Graphic(polygon, fillSymbol));
 
                 if (showNames) {
-
                     District locationEnum = District.valueOf(location.toUpperCase());   //enum values are in upper case,
                     // enum used since location position is in enum declaration
                     Point pt = locationEnum.namePosition();
                     TextSymbol textSymbol = new TextSymbol(10, HelperClass.toSentenceCase(name), textColor,
                             TextSymbol.HorizontalAlignment.CENTER, VerticalAlignment.BOTTOM);
 
-                    Graphic gr = new Graphic(pt, textSymbol);
-
                     textGraphics.add(new Graphic(pt, textSymbol));
-                    //locationNameOverlay.getGraphics().add(gr);
                 }
 
             } catch (NullPointerException e) {
-                Log.e("DrawPolygon", name + " polygon not found");
+                Log.e(TAG, name + " polygon not found");
             }
         }
 
@@ -140,6 +126,6 @@ public class DrawPolygon {
 
         while (overlays.size() >= 4) {
             overlays.remove(overlays.size() - 1);     //remove top until size is less than 5, 4 are defined initially
-        }
+        }                                                //basemap, country map, district map, district name
     }
 }

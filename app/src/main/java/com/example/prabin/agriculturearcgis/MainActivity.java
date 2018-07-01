@@ -3,9 +3,8 @@ package com.example.prabin.agriculturearcgis;
 import android.app.Dialog;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.constraint.ConstraintLayout;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -20,14 +19,12 @@ import com.esri.arcgisruntime.layers.FeatureLayer;
 import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.Basemap;
-import com.esri.arcgisruntime.mapping.Viewpoint;
-import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
-import com.esri.arcgisruntime.mapping.view.MapRotationChangedEvent;
-import com.esri.arcgisruntime.mapping.view.MapRotationChangedListener;
 import com.esri.arcgisruntime.mapping.view.MapView;
-import com.esri.arcgisruntime.mapping.view.NavigationChangedEvent;
-import com.esri.arcgisruntime.mapping.view.NavigationChangedListener;
 import com.example.prabin.agriculturearcgis.Data.District;
+import com.example.prabin.agriculturearcgis.Data.State;
+import com.example.prabin.agriculturearcgis.NavigationTasks.GeographyHandler;
+import com.example.prabin.agriculturearcgis.NavigationTasks.InfrastructuresHandler;
+import com.example.prabin.agriculturearcgis.NavigationTasks.ProductionHandler;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -38,12 +35,13 @@ public class MainActivity extends AppCompatActivity {
 
     private MapView mMapView;
     private ArcGISMap mMap;
+
     private AHBottomNavigation mBottomNavigation;
 
     private Button mBtnLayerSelector;
-    private Button mBtnLegendSelector;
     private Button mBtnCropSelector;
     private Button mBtnGeoPropertySelector;
+    private Button mBtnInfrastructureSelector;
 
     private Envelope createEnvelope() {
         Envelope envelope = new Envelope(78.72803, 30.93050, 89.63745, 26.10612, SpatialReferences.getWgs84());
@@ -59,11 +57,10 @@ public class MainActivity extends AppCompatActivity {
         mBottomNavigation = findViewById(R.id.main_bottom_navigation);
 
         mBtnLayerSelector = findViewById(R.id.main_button_layer_select);
-        mBtnLegendSelector = findViewById(R.id.main_button_legend_toggle);
         mBtnCropSelector = findViewById(R.id.main_button_crop_select);
         mBtnGeoPropertySelector = findViewById(R.id.main_button_geo_property);
+        mBtnInfrastructureSelector = findViewById(R.id.main_button_infrastructure);
 
-        customizeBottomNavigation();
         addItemsBottomNavigation();
         handleBottomNavigationTabs();
 
@@ -75,40 +72,17 @@ public class MainActivity extends AppCompatActivity {
 
         //hide selector buttons of navigation except for first
         mBtnGeoPropertySelector.setVisibility(View.GONE);
-
-        mMapView.addMapRotationChangedListener(new MapRotationChangedListener() {
-            @Override
-            public void mapRotationChanged(MapRotationChangedEvent mapRotationChangedEvent) {
-                mMapView.setViewpointRotationAsync(0);
-            }
-        });
-        /*
-        mMapView.addNavigationChangedListener(new NavigationChangedListener() {
-            @Override
-            public void navigationChanged(NavigationChangedEvent navigationChangedEvent) {
-                //mMapView.setViewpointGeometryAsync(createEnvelope(), 2);
-            }
-        });*/
+        mBtnInfrastructureSelector.setVisibility(View.GONE);
 
         mMap = new ArcGISMap(Basemap.createLightGrayCanvas());
         mMap.setMinScale(10000000);//zoom out scale
         mMap.setMaxScale(400000);//zoom in scale
-
         mMapView.setMap(mMap);
-
         mMapView.setViewpointGeometryAsync(createEnvelope(), 2);
         //mMapView.setViewpoint(new Viewpoint(new Point(28.42039,84.12781, SpatialReferences.getWgs84()), 10000000));
 
-
-        GraphicsOverlay overlay = new GraphicsOverlay();
-        mMapView.getGraphicsOverlays().add(overlay);
-
-        String[] locationList = {District.BHAKTAPUR.name(), District.CHITWAN.name(), District.DHADING.name(), District.DOLAKHA.name(),
-                District.KATHMANDU.name(), District.KAVREPALANCHOWK.name(), District.LALITPUR.name(), District.MAKWANPUR.name(),
-                District.NUWAKOT.name(), District.RAMECHHAP.name(), District.RASUWA.name(), District.SINDHULI.name(), District.SINDUPALCHOWK.name()};
-
-        List<String> location = new ArrayList<>(Arrays.asList(locationList));
-        new DrawPolygon(this).setDistricts(location, Color.rgb(80,90,100), true, Color.WHITE);
+        new DrawPolygon(this).setPolygon("map_nepal");
+        showState3Map();
 
         mBtnLayerSelector.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -119,6 +93,19 @@ public class MainActivity extends AppCompatActivity {
 
         new ProductionHandler(this);
         new GeographyHandler(this);
+        new InfrastructuresHandler(this);
+
+        fabLocationPanActions();
+
+    }
+
+    private void showState3Map() {
+
+        String[] locationList = State.STATE_3.getDistricts();
+
+        List<String> location = new ArrayList<>(Arrays.asList(locationList));
+        new DrawPolygon(this).setDistricts(location, Color.rgb(80, 90, 100), true, Color.WHITE);
+
     }
 
     private void showChangeBaseMapDialog() {
@@ -129,7 +116,7 @@ public class MainActivity extends AppCompatActivity {
         dialog.setCancelable(true);
 
         Button baseMap1, baseMap2, baseMap3, baseMap4;
-        TextView baseMap1Name, baseMap2Name, baseMap3Name,baseMap4Name;
+        TextView baseMap1Name, baseMap2Name, baseMap3Name, baseMap4Name;
 
         baseMap1 = dialog.findViewById(R.id.dialog_basemap_1);
         baseMap2 = dialog.findViewById(R.id.dialog_basemap_2);
@@ -181,22 +168,20 @@ public class MainActivity extends AppCompatActivity {
         dialog.show();
     }
 
-    private void customizeBottomNavigation() {
+    private void addItemsBottomNavigation() {
 
+        //customize
         mBottomNavigation.setAccentColor(android.R.color.white);
         mBottomNavigation.setTitleState(AHBottomNavigation.TitleState.ALWAYS_SHOW);
         mBottomNavigation.setColored(true);
         mBottomNavigation.setTranslucentNavigationEnabled(false);
         //mBottomNavigation.setBehaviorTranslationEnabled(false);
-    }
 
-    private void addItemsBottomNavigation() {
-
-        AHBottomNavigationItem item1 = new AHBottomNavigationItem(R.string.nav_item_1, R.drawable.nav_ic_distribution, R.color.colorPrimary);
-        AHBottomNavigationItem item2 = new AHBottomNavigationItem(R.string.nav_item_2, R.drawable.nav_ic_geography, R.color.colorPrimary);
-        AHBottomNavigationItem item3 = new AHBottomNavigationItem(R.string.nav_item_3, R.drawable.nav_ic_road, R.color.colorPrimary);
-        AHBottomNavigationItem item4 = new AHBottomNavigationItem(R.string.nav_item_4, R.drawable.nav_ic_weather, R.color.colorPrimary);
-        AHBottomNavigationItem item5 = new AHBottomNavigationItem(R.string.nav_item_5, R.drawable.nav_ic_bulb, R.color.colorPrimary);
+        AHBottomNavigationItem item1 = new AHBottomNavigationItem(R.string.nav_item_1, R.drawable.nav_ic_distribution, R.color.nav_distribution);
+        AHBottomNavigationItem item2 = new AHBottomNavigationItem(R.string.nav_item_2, R.drawable.nav_ic_geography, R.color.nav_geography);
+        AHBottomNavigationItem item3 = new AHBottomNavigationItem(R.string.nav_item_3, R.drawable.nav_ic_road, R.color.nav_infrastructure);
+        AHBottomNavigationItem item4 = new AHBottomNavigationItem(R.string.nav_item_4, R.drawable.nav_ic_weather, R.color.nav_weather);
+        AHBottomNavigationItem item5 = new AHBottomNavigationItem(R.string.nav_item_5, R.drawable.nav_ic_bulb, R.color.nav_guide);
 
         mBottomNavigation.addItem(item1);
         mBottomNavigation.addItem(item2);
@@ -210,24 +195,21 @@ public class MainActivity extends AppCompatActivity {
         mBottomNavigation.setOnTabSelectedListener(new AHBottomNavigation.OnTabSelectedListener() {
             @Override
             public boolean onTabSelected(int position, boolean wasSelected) {
-
-                //Hide all views first and making those visible which are necessary for given navigation item
+                //Hide all views first
+                //Make those visible which are necessary for given navigation item
                 mBtnCropSelector.setVisibility(View.GONE);
-                mBtnLegendSelector.setVisibility(View.GONE);
                 mBtnGeoPropertySelector.setVisibility(View.GONE);
-
+                mBtnInfrastructureSelector.setVisibility(View.GONE);
 
                 switch (position) {
                     case 0:
                         mBtnCropSelector.setVisibility(View.VISIBLE);
-                        mBtnLegendSelector.setVisibility(View.VISIBLE);
                         break;
                     case 1:
                         mBtnGeoPropertySelector.setVisibility(View.VISIBLE);
-                        mBtnLegendSelector.setVisibility(View.VISIBLE);
                         break;
                     case 2:
-                        //loadFeatureShapeFile();
+                        mBtnInfrastructureSelector.setVisibility(View.VISIBLE);
                         break;
                     case 3:
                         break;
@@ -237,6 +219,18 @@ public class MainActivity extends AppCompatActivity {
                         break;
                 }
                 return true;
+            }
+        });
+    }
+
+    private void fabLocationPanActions() {
+
+        FloatingActionButton fabLocation = findViewById(R.id.main_locationFAB);
+        fabLocation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mMapView.setViewpointGeometryAsync(District.KATHMANDU.envelope(), 2);
+                mMapView.setViewpointRotationAsync(0);
             }
         });
     }

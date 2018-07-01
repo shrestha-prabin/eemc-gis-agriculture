@@ -3,6 +3,7 @@ package com.example.prabin.agriculturearcgis.Data;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
+import com.esri.arcgisruntime.geometry.Envelope;
 import com.esri.arcgisruntime.geometry.Point;
 import com.esri.arcgisruntime.geometry.SpatialReferences;
 
@@ -87,5 +88,116 @@ public enum District {
                 break;
         }
         return new Point(x, y, SpatialReferences.getWgs84());
+    }
+
+    public Envelope envelope() {
+        /*x1,y1             */
+        /*                  */
+        /*                  */
+        /*             x2,y2*/
+
+        double x1, y1, x2, y2;
+
+        switch (this) {
+
+            case BHAKTAPUR:
+                x1 = 1;
+                y1 = 1;
+                x2 = 2;
+                y2 = 2;
+                break;
+
+            case CHITWAN:
+                x1 = 1;
+                y1 = 1;
+                x2 = 2;
+                y2 = 2;
+                break;
+
+            case DHADING:
+                x1 = 1;
+                y1 = 1;
+                x2 = 2;
+                y2 = 2;
+                break;
+
+            case DOLAKHA:
+                x1 = 1;
+                y1 = 1;
+                x2 = 2;
+                y2 = 2;
+                break;
+
+            case KATHMANDU:
+                x1 = 85.16670;
+                y1 = 27.84758;
+                x2 = 85.58281;
+                y2 = 27.5435;
+                break;
+
+            case KAVREPALANCHOWK:
+                x1 = 1;
+                y1 = 1;
+                x2 = 2;
+                y2 = 2;
+                break;
+
+            case LALITPUR:
+                x1 = 1;
+                y1 = 1;
+                x2 = 2;
+                y2 = 2;
+                break;
+
+            case MAKWANPUR:
+                x1 = 1;
+                y1 = 1;
+                x2 = 2;
+                y2 = 2;
+                break;
+
+            case NUWAKOT:
+                x1 = 1;
+                y1 = 1;
+                x2 = 2;
+                y2 = 2;
+                break;
+
+            case SINDHULI:
+                x1 = 1;
+                y1 = 1;
+                x2 = 2;
+                y2 = 2;
+                break;
+
+            case RASUWA:
+                x1 = 1;
+                y1 = 1;
+                x2 = 2;
+                y2 = 2;
+                break;
+
+            case RAMECHHAP:
+                x1 = 1;
+                y1 = 1;
+                x2 = 2;
+                y2 = 2;
+                break;
+
+            case SINDUPALCHOWK:
+                x1 = 1;
+                y1 = 1;
+                x2 = 2;
+                y2 = 2;
+                break;
+
+            default:
+                x1 = 1;
+                y1 = 1;
+                x2 = 2;
+                y2 = 2;
+        }
+
+        return new Envelope(x1, y1, x2, y2, SpatialReferences.getWgs84());
     }
 }

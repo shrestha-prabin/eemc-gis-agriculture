@@ -3,10 +3,9 @@
 
     <string name="action_settings">Settings</string>
 
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="nav_item_1">Distribution</string>
     <string name="nav_item_2">Geography</string>
-    <string name="nav_item_3">Roads/River</string>
+    <string name="nav_item_3">Infrastructures</string>
     <string name="nav_item_4">Weather</string>
     <string name="nav_item_5">Guides</string>
 </resources>
