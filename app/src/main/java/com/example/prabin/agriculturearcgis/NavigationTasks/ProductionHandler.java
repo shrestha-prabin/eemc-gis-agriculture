@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.esri.arcgisruntime.mapping.view.MapView;
 import com.example.prabin.agriculturearcgis.Data.DistrictData;
@@ -39,6 +40,7 @@ public class ProductionHandler {
     private Context mContext;
     private Button mBtnCropSelector;
     private Button mBtnLegendToggle;
+    private Button mBtnNameToggle;
     private MapView mMapView;
 
     public ProductionHandler(final Context mContext) {
@@ -47,6 +49,7 @@ public class ProductionHandler {
         mBtnCropSelector = ((Activity) mContext).findViewById(R.id.main_button_crop_select);
         mBtnLegendToggle = ((Activity) mContext).findViewById(R.id.main_button_legend_toggle);
         mBtnLegendToggle.setVisibility(View.GONE);
+        mBtnNameToggle = ((Activity)mContext).findViewById(R.id.main_button_name_toggle);
 
         mMapView = ((Activity) mContext).findViewById(R.id.main_mapview);
 
@@ -61,6 +64,13 @@ public class ProductionHandler {
             @Override
             public void onClick(View view) {
                 toggleLegend();
+            }
+        });
+        
+        mBtnNameToggle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(mContext, "Toggle Name", Toast.LENGTH_SHORT).show();
             }
         });
     }

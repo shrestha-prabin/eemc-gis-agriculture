@@ -2,7 +2,10 @@ package com.example.prabin.agriculturearcgis.Data;
 
 import android.util.Log;
 
+import com.esri.arcgisruntime.geometry.Envelope;
 import com.esri.arcgisruntime.geometry.Point;
+import com.esri.arcgisruntime.geometry.SpatialReference;
+import com.esri.arcgisruntime.geometry.SpatialReferences;
 
 /**
  * Created by Prabin on 6/18/2018.
@@ -78,6 +81,71 @@ public enum State {
 
     }
 
+    public Envelope envelope() {
+
+        double x1, y1, x2, y2;
+
+        switch (this) {
+
+
+            case STATE_1:
+                x1 = 1;
+                y1 = 1;
+                x2 = 2;
+                y2 = 2;
+                break;
+
+            case STATE_2:
+                x1 = 1;
+                y1 = 1;
+                x2 = 2;
+                y2 = 2;
+                break;
+
+            case STATE_3:
+                x1 = 83.63892;
+                y1 = 28.74840;
+                x2 = 86.96777;
+                y2 = 26.31311;
+                break;
+
+            case STATE_4:
+                x1 = 1;
+                y1 = 1;
+                x2 = 2;
+                y2 = 2;
+                break;
+
+            case STATE_5:
+                x1 = 1;
+                y1 = 1;
+                x2 = 2;
+                y2 = 2;
+                break;
+            case STATE_6:
+                x1 = 1;
+                y1 = 1;
+                x2 = 2;
+                y2 = 2;
+                break;
+            case STATE_7:
+                x1 = 1;
+                y1 = 1;
+                x2 = 2;
+                y2 = 2;
+                break;
+
+            default:
+                x1 = 1;
+                y1 = 1;
+                x2 = 2;
+                y2 = 2;
+                break;
+        }
+
+        return new Envelope(x1, y1, x2, y2, SpatialReferences.getWgs84());
+    }
+
     public String[] getDistricts() {
 
         String[] districtList;
@@ -87,7 +155,7 @@ public enum State {
                 districtList = new String[]{District.BHAKTAPUR.name(), District.CHITWAN.name(), District.DHADING.name(),
                         District.DOLAKHA.name(), District.KATHMANDU.name(), District.KAVREPALANCHOWK.name(),
                         District.LALITPUR.name(), District.MAKWANPUR.name(), District.NUWAKOT.name(),
-                        District.RAMECHHAP.name(), District.RAMECHHAP.name(), District.SINDHULI.name(),
+                        District.RASUWA.name(), District.RAMECHHAP.name(), District.SINDHULI.name(),
                         District.SINDUPALCHOWK.name()};
                 break;
             default:

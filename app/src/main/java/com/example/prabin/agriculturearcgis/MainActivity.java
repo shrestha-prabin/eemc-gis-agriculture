@@ -1,10 +1,17 @@
 package com.example.prabin.agriculturearcgis;
 
+import android.Manifest;
 import android.app.Dialog;
+import android.content.Context;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -19,7 +26,11 @@ import com.esri.arcgisruntime.layers.FeatureLayer;
 import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.Basemap;
+import com.esri.arcgisruntime.mapping.Viewpoint;
 import com.esri.arcgisruntime.mapping.view.MapView;
+import com.esri.arcgisruntime.symbology.SimpleMarkerSymbol;
+import com.esri.arcgisruntime.symbology.SimpleRenderer;
+import com.esri.arcgisruntime.symbology.UniqueValueRenderer;
 import com.example.prabin.agriculturearcgis.Data.District;
 import com.example.prabin.agriculturearcgis.Data.State;
 import com.example.prabin.agriculturearcgis.NavigationTasks.GeographyHandler;
@@ -90,6 +101,7 @@ public class MainActivity extends AppCompatActivity {
                 showChangeBaseMapDialog();
             }
         });
+
 
         new ProductionHandler(this);
         new GeographyHandler(this);
@@ -201,6 +213,11 @@ public class MainActivity extends AppCompatActivity {
                 mBtnGeoPropertySelector.setVisibility(View.GONE);
                 mBtnInfrastructureSelector.setVisibility(View.GONE);
 
+                //hide legend on changing navigation item
+                findViewById(R.id.main_legend).setVisibility(View.GONE);
+
+                new DrawPolygon(MainActivity.this).removePolygonAndTextOverlays();
+
                 switch (position) {
                     case 0:
                         mBtnCropSelector.setVisibility(View.VISIBLE);
@@ -229,31 +246,49 @@ public class MainActivity extends AppCompatActivity {
         fabLocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mMapView.setViewpointGeometryAsync(District.KATHMANDU.envelope(), 2);
+
+                //To be corrected
+                /*try {
+                    loadFeatureShapeFile();
+                } catch (Exception e) {
+                    Toast.makeText(MainActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
+                }*/
+                mMapView.setViewpointGeometryAsync(State.STATE_3.envelope(), 0);
                 mMapView.setViewpointRotationAsync(0);
             }
         });
     }
 
     private void loadFeatureShapeFile() {
-        final ShapefileFeatureTable shapefileFeatureTable = new ShapefileFeatureTable("assets/trans_pt.shp");
+
+        String[] reqPermission = new String[]{Manifest.permission.READ_EXTERNAL_STORAGE};
+        if (ContextCompat.checkSelfPermission(MainActivity.this, reqPermission[0]) == PackageManager.PERMISSION_DENIED) {
+            ActivityCompat.requestPermissions(MainActivity.this, reqPermission, 1);
+        }
+
+        String shapeFilePath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/waterways/hotosm_npl_waterways_polygons.shp";
+        Log.d("Feature", shapeFilePath);
+
+        final ShapefileFeatureTable shapefileFeatureTable = new ShapefileFeatureTable(shapeFilePath);
         shapefileFeatureTable.loadAsync();
-        shapefileFeatureTable.addDoneLoadingListener(new Runnable() {
-            @Override
-            public void run() {
-                if (shapefileFeatureTable.getLoadStatus() == LoadStatus.LOADED) {
-                    // create a feature layer to display the shapefile
-                    FeatureLayer shapefileFeatureLayer = new FeatureLayer(shapefileFeatureTable);
+        shapefileFeatureTable.addDoneLoadingListener(() -> {
+            if (shapefileFeatureTable.getLoadStatus() == LoadStatus.LOADED) {
+                Toast.makeText(this, "Table Loaded", Toast.LENGTH_SHORT).show();
 
-                    // add the feature layer to the map
-                    mMapView.getMap().getOperationalLayers().add(shapefileFeatureLayer);
+                FeatureLayer shapefileFeatureLayer = new FeatureLayer(shapefileFeatureTable);
+                shapefileFeatureLayer.loadAsync();
 
-                    // zoom the map to the extent of the shapefile
-                    //mMapView.setViewpointAsync(new Viewpoint(shapefileFeatureLayer.getFullExtent()));
-                } else {
-                    String error = "Shapefile feature table failed to load: " + shapefileFeatureTable.getLoadError().toString();
-                    Toast.makeText(MainActivity.this, error, Toast.LENGTH_LONG).show();
-                }
+                //shapefileFeatureLayer.setRenderer(new SimpleRenderer(new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.DIAMOND, Color.RED, 10)));
+
+                // add the feature layer to the map
+                mMapView.getMap().getOperationalLayers().add(shapefileFeatureLayer);
+
+                // zoom the map to the extent of the shapefile
+                mMapView.setViewpointAsync(new Viewpoint(shapefileFeatureLayer.getFullExtent()));
+
+            } else {
+                String error = "Shapefile feature table failed to load: " + shapefileFeatureTable.getLoadError().toString();
+                Toast.makeText(MainActivity.this, error, Toast.LENGTH_LONG).show();
             }
         });
     }

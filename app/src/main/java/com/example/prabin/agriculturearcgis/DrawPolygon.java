@@ -126,6 +126,12 @@ public class DrawPolygon {
 
         while (overlays.size() >= 4) {
             overlays.remove(overlays.size() - 1);     //remove top until size is less than 5, 4 are defined initially
-        }                                                //basemap, country map, district map, district name
+        }                                                //basemap, country border map, district map, district name
+    }
+
+    public void removeLastAddedOverlay() {
+
+        ListenableList<GraphicsOverlay> overlays = mMapView.getGraphicsOverlays();
+        overlays.remove(overlays.size() - 1);
     }
 }
