@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="province_3">
+        <item>Bhaktapur</item>
+        <item>Chitwan</item>
+        <item>Dhading</item>
+        <item>Dolakha</item>
+        <item>Kathmandu</item>
+        <item>Kavrepalanchowk</item>
+        <item>Lalitpur</item>
+        <item>Makwanpur</item>
+        <item>Nuwakot</item>
+        <item>Ramechhap</item>
+        <item>Rasuwa</item>
+        <item>Sinduli</item>
+        <item>Sindupalchowk</item>
+    </string-array>
+</resources>

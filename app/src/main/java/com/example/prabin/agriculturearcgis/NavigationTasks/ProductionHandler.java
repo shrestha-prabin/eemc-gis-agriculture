@@ -85,7 +85,7 @@ public class ProductionHandler {
 
     private void takeInputFromUser() {
 
-        final String[] crops = {"Wheat", "Maize", "Barley", "Millet"};
+        final String[] crops = mContext.getResources().getStringArray(R.array.crop_list);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
         builder.setTitle("Crops");

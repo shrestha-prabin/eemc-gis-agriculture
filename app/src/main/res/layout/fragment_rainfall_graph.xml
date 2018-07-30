@@ -1,0 +1,12 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.prabin.agriculturearcgis.NavigationTasks.Recommendation.GraphView.RainfallGraphFragment">
+
+    <com.github.mikephil.charting.charts.BarChart
+        android:id="@+id/graph_rainfall_barchart"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+</FrameLayout>

@@ -10,11 +10,16 @@
     <color name="nav_distribution">#076969</color>
     <color name="nav_geography">#076969</color>
     <color name="nav_infrastructure">#076969</color>
-    <color name="nav_weather">#654969</color>
-    <color name="nav_guide">#995200</color>
+    <color name="nav_data_input">#654969</color>
+    <color name="nav_recommend">#654969</color>
 
     <color name="transparentWhite">#89ffffff</color>
 
     <color name="grey">#d4d4d4</color>
+    <color name="white">#ffffff</color>
+
+    <color name="graph_orange">#f7b081</color>
+    <color name="graph_blue">#81b0f7</color>
+    <color name="graph_green">#b0f781</color>
 
 </resources>

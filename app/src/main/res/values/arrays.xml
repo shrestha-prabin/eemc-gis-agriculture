@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="crop_list">
+        <item>Rice</item>
+        <item>Wheat</item>
+        <item>Maize</item>
+        <item>Barley</item>
+        <item>Millet</item>
+    </string-array>
+
+    <string-array name="production_unit">
+        <item>Kg</item>
+        <item>Quintals</item>
+        <item>Tonnes</item>
+    </string-array>
+</resources>

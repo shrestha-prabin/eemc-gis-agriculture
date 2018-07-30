@@ -3,6 +3,7 @@ package com.example.prabin.agriculturearcgis;
 import android.Manifest;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -36,6 +37,8 @@ import com.example.prabin.agriculturearcgis.Data.State;
 import com.example.prabin.agriculturearcgis.NavigationTasks.GeographyHandler;
 import com.example.prabin.agriculturearcgis.NavigationTasks.InfrastructuresHandler;
 import com.example.prabin.agriculturearcgis.NavigationTasks.ProductionHandler;
+import com.example.prabin.agriculturearcgis.NavigationTasks.Recommendation.RecommendActivity;
+import com.example.prabin.agriculturearcgis.NavigationTasks.UserDataInput.DataInputActivity;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -192,8 +195,8 @@ public class MainActivity extends AppCompatActivity {
         AHBottomNavigationItem item1 = new AHBottomNavigationItem(R.string.nav_item_1, R.drawable.nav_ic_distribution, R.color.nav_distribution);
         AHBottomNavigationItem item2 = new AHBottomNavigationItem(R.string.nav_item_2, R.drawable.nav_ic_geography, R.color.nav_geography);
         AHBottomNavigationItem item3 = new AHBottomNavigationItem(R.string.nav_item_3, R.drawable.nav_ic_road, R.color.nav_infrastructure);
-        AHBottomNavigationItem item4 = new AHBottomNavigationItem(R.string.nav_item_4, R.drawable.nav_ic_weather, R.color.nav_weather);
-        AHBottomNavigationItem item5 = new AHBottomNavigationItem(R.string.nav_item_5, R.drawable.nav_ic_bulb, R.color.nav_guide);
+        AHBottomNavigationItem item4 = new AHBottomNavigationItem(R.string.nav_item_4, R.drawable.nav_ic_weather, R.color.nav_recommend);
+        AHBottomNavigationItem item5 = new AHBottomNavigationItem(R.string.nav_item_5, R.drawable.nav_icon_data_table, R.color.nav_data_input);
 
         mBottomNavigation.addItem(item1);
         mBottomNavigation.addItem(item2);
@@ -229,8 +232,11 @@ public class MainActivity extends AppCompatActivity {
                         mBtnInfrastructureSelector.setVisibility(View.VISIBLE);
                         break;
                     case 3:
+                        startActivity(new Intent(MainActivity.this, RecommendActivity.class));
                         break;
                     case 4:
+                        //finish();
+                        startActivity(new Intent(MainActivity.this, DataInputActivity.class));
                         break;
                     default:
                         break;
