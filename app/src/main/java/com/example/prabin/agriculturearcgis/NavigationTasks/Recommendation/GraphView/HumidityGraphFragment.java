@@ -24,6 +24,7 @@ public class HumidityGraphFragment extends Fragment {
 
     LineChart humidityLineChart;
     String location;
+String year;
 
     public HumidityGraphFragment() {
 
@@ -37,12 +38,13 @@ public class HumidityGraphFragment extends Fragment {
         humidityLineChart = v.findViewById(R.id.graph_humidity_linechart);
 
         location = getArguments().getString("location").toLowerCase();
+        year = getArguments().getString("year").toLowerCase();
 
         customizeChart();
         try {
             populateData();
         } catch (IOException e) {
-            Toast.makeText(getContext(), "File Not Found for " + location , Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "Humidity data not found for " + location + "/" + year , Toast.LENGTH_SHORT).show();
         }
 
         return v;
@@ -60,6 +62,10 @@ public class HumidityGraphFragment extends Fragment {
         xAxis.setDrawGridLines(false);
         xAxis.setGranularity(1f);
         xAxis.setLabelCount(12);
+
+        MyMarkerView mv = new MyMarkerView(getContext(), R.layout.custom_marker_view);
+        mv.setChartView(humidityLineChart); // For bounds control?
+        humidityLineChart.setMarker(mv);
     }
 
 
@@ -72,9 +78,9 @@ public class HumidityGraphFragment extends Fragment {
         CSVFileReader humidityFile;
         humidityFile = new CSVFileReader(getContext(), location);
 
-        double[] humidityMinData = humidityFile.getDataFromFile("2017", "humidity_min");
-        double[] humidityMaxData = humidityFile.getDataFromFile("2017", "humidity_max");
-        double[] humidityAvgData = humidityFile.getDataFromFile("2017", "humidity_avg");
+        double[] humidityMinData = humidityFile.getDataFromFile(year, "humidity_min");
+        double[] humidityMaxData = humidityFile.getDataFromFile(year, "humidity_max");
+        double[] humidityAvgData = humidityFile.getDataFromFile(year, "humidity_avg");
 
         for(int i = 0;i<12;i++) {
             eMinHumidity.add(new Entry(i+1, (float) humidityMinData[i]));
@@ -106,10 +112,11 @@ public class HumidityGraphFragment extends Fragment {
         humidityLineChart.invalidate();
     }
 
-    public static Fragment newInstance(String location) {
+    public static Fragment newInstance(String location, String year) {
         HumidityGraphFragment fragment = new HumidityGraphFragment();
         Bundle b = new Bundle();
         b.putString("location", location);
+        b.putString("year", year);
         fragment.setArguments(b);
         return fragment;
     }

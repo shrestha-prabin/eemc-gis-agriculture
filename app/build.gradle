@@ -3,6 +3,9 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 26
     defaultConfig {
+        //https://stackoverflow.com/questions/46267621/unable-to-merge-dex
+        multiDexEnabled true
+
         applicationId "com.example.prabin.agriculturearcgis"
         minSdkVersion 21
         targetSdkVersion 26

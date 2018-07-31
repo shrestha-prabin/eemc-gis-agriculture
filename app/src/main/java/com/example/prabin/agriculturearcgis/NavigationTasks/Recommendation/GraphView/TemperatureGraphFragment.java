@@ -25,6 +25,7 @@ public class TemperatureGraphFragment extends Fragment {
 
     LineChart temperatureLineChart;
     String location;
+    String year;
 
     public TemperatureGraphFragment() {
     }
@@ -36,13 +37,14 @@ public class TemperatureGraphFragment extends Fragment {
 
         View v = inflater.inflate(R.layout.fragment_temperature_graph, container, false);
         location = getArguments().getString("location").toLowerCase();
+        year = getArguments().getString("year");
 
         temperatureLineChart = v.findViewById(R.id.graph_temperature_linechart);
         customizeChart();
         try {
             populateData();
         } catch (IOException e) {
-            Toast.makeText(getContext(), "File Not Found for " + location, Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "Temperature data not found for " + location + "/" + year, Toast.LENGTH_SHORT).show();
         }
 
         return v;
@@ -61,6 +63,10 @@ public class TemperatureGraphFragment extends Fragment {
         xAxis.setDrawGridLines(false);
         xAxis.setGranularity(1f);
         xAxis.setLabelCount(12);
+
+        MyMarkerView mv = new MyMarkerView(getContext(), R.layout.custom_marker_view);
+        mv.setChartView(temperatureLineChart); // For bounds control?
+        temperatureLineChart.setMarker(mv);
     }
 
 
@@ -72,8 +78,8 @@ public class TemperatureGraphFragment extends Fragment {
         CSVFileReader temperatureFile;
         temperatureFile = new CSVFileReader(getContext(), location);
 
-        double[] temperatureMinData = temperatureFile.getDataFromFile("2017", "temp_min");
-        double[] temperatureMaxData = temperatureFile.getDataFromFile("2017", "temp_max");
+        double[] temperatureMinData = temperatureFile.getDataFromFile(year, "temp_min");
+        double[] temperatureMaxData = temperatureFile.getDataFromFile(year, "temp_max");
 
         for (int i = 0; i < 12; i++) {
             eMinTemp.add(new Entry(i + 1, (float) temperatureMinData[i]));
@@ -97,10 +103,11 @@ public class TemperatureGraphFragment extends Fragment {
         temperatureLineChart.invalidate();
     }
 
-    public static TemperatureGraphFragment newInstance(String location) {
+    public static TemperatureGraphFragment newInstance(String location, String year) {
         TemperatureGraphFragment fragment = new TemperatureGraphFragment();
         Bundle b = new Bundle();
         b.putString("location", location);
+        b.putString("year", year);
         fragment.setArguments(b);
         return fragment;
     }

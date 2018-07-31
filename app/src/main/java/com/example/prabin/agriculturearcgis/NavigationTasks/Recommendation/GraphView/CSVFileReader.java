@@ -19,7 +19,7 @@ public class CSVFileReader  {
     private List<String[]> resultList;
 
     public CSVFileReader(Context context, String location) throws IOException {
-        this.inputStream = context.getAssets().open("graph_data_" + location + ".csv");
+        this.inputStream = context.getAssets().open("data4graph_" + location + ".csv");
         this.read();
     }
 

@@ -13,4 +13,12 @@
         <item>Quintals</item>
         <item>Tonnes</item>
     </string-array>
+
+    <string-array name="data_dates">
+        <item>2013</item>
+        <item>2014</item>
+        <item>2015</item>
+        <item>2016</item>
+        <item>2017</item>
+    </string-array>
 </resources>

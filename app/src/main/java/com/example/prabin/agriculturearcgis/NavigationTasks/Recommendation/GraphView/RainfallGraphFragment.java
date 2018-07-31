@@ -32,6 +32,7 @@ public class RainfallGraphFragment extends Fragment {
 
     BarChart rainfallBarChart;
     String location;
+    String year;
 
     public RainfallGraphFragment() {
     }
@@ -44,18 +45,20 @@ public class RainfallGraphFragment extends Fragment {
 
         rainfallBarChart = v.findViewById(R.id.graph_rainfall_barchart);
         location = getArguments().getString("location").toLowerCase();
+        year = getArguments().getString("year").toLowerCase();
 
         customizeChart();
         try {
             populateData();
         } catch (IOException e) {
-            Toast.makeText(getContext(), "File Not Found for " + location, Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "Rainfall data not found for " + location + "/" + year , Toast.LENGTH_SHORT).show();
         }
         return v;
     }
 
     private void customizeChart() {
         rainfallBarChart.getDescription().setEnabled(false);
+        rainfallBarChart.setScaleXEnabled(false);
         rainfallBarChart.setScaleYEnabled(false);
         rainfallBarChart.getAxisRight().setEnabled(false);
         rainfallBarChart.setMaxVisibleValueCount(1);
@@ -78,7 +81,7 @@ public class RainfallGraphFragment extends Fragment {
         CSVFileReader temperatureFile;
         temperatureFile = new CSVFileReader(getContext(), location);
 
-        double[] rainfallData = temperatureFile.getDataFromFile("2017", "rain_total");
+        double[] rainfallData = temperatureFile.getDataFromFile(year, "rain_total");
 
         /*ArrayList<BarEntry> eRainData = new ArrayList<>();
         for (int i = 0; i < 12; i++) {
@@ -108,10 +111,11 @@ public class RainfallGraphFragment extends Fragment {
         rainfallBarChart.setData(data);
     }
 
-    public static Fragment newInstance(String location) {
+    public static Fragment newInstance(String location, String year) {
         RainfallGraphFragment fragment = new RainfallGraphFragment();
         Bundle b = new Bundle();
         b.putString("location", location);
+        b.putString("year", year);
         fragment.setArguments(b);
         return fragment;
     }
