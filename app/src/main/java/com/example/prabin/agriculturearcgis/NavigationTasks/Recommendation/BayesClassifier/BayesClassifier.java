@@ -1,12 +1,12 @@
 package com.example.prabin.agriculturearcgis.NavigationTasks.Recommendation.BayesClassifier;
 
 import android.content.Context;
-import android.util.Log;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,7 +44,7 @@ public class BayesClassifier {
         }
     }
 
-    public boolean testForCrop(String testCrop, Attributes attr) {
+    public double testForCrop(String testCrop, Attributes attr) {
 
         this.testCrop = "plant_" + testCrop.toLowerCase();
 
@@ -72,13 +72,19 @@ public class BayesClassifier {
         double posterior_yes = 0.5 * p_maxTemp_yes * p_minTemp_yes * p_maxRH_yes * p_minRH_yes * p_avgRH_yes * p_rain_yes;
         double posterior_no = 0.5 * p_maxTemp_no * p_minTemp_no * p_maxRH_no * p_minRH_no * p_avgRH_no * p_rain_no;
 
-        if (posterior_yes >= posterior_no) {
+
+        //For Decision only
+        /*if (posterior_yes >= posterior_no) {
             Log.d("RESULT", testCrop + " Positive");
             return true;
         } else {
             Log.d("RESULT", testCrop + " Negative");
             return false;
-        }
+        }*/
+
+        double yes = posterior_yes/(posterior_yes + posterior_no) *100;
+        DecimalFormat twoDForm = new DecimalFormat("#.##");
+        return Double.valueOf(twoDForm.format(yes));
     }
 
     private double probabilityDistribution(String attribute, String decision, Double testValue) {

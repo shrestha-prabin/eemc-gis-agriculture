@@ -7,12 +7,14 @@
     <color name="transparent_blue">#7f4e7dff</color>
     <color name="transparent_black">#12000000</color>
 
-    <color name="nav_distribution">#076969</color>
-    <color name="nav_geography">#076969</color>
-    <color name="nav_infrastructure">#076969</color>
-    <color name="nav_data_input">#654969</color>
-    <color name="nav_recommend">#654969</color>
+    <color name="nav_distribution">#004d40</color>
+    <color name="nav_geography">#004d40</color>
+    <color name="nav_infrastructure">#004d40</color>
+    <color name="nav_data_input">#666666</color>
+    <color name="nav_recommend">#666666</color>
 
+
+    <color name="transparent">#00000000</color>
     <color name="transparentWhite">#89ffffff</color>
 
     <color name="grey">#d4d4d4</color>
@@ -27,5 +29,6 @@
 
     <color name="blueGrey900">#263238</color>
     <color name="grey800">#424242</color>
-    <color name="brightBlue">#00aae6</color>
+    <color name="brightBlue">#008cbe</color>
+
 </resources>

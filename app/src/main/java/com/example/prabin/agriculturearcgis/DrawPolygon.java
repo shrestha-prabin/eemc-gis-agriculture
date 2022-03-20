@@ -35,7 +35,7 @@ public class DrawPolygon {
 
     private static final String TAG = "DRAW_POLYGON";
 
-    public DrawPolygon(Context mContext) {
+    public  DrawPolygon(Context mContext) {
         this.mContext = mContext;
         mMapView = ((Activity) mContext).findViewById(R.id.main_mapview);
     }
@@ -59,7 +59,6 @@ public class DrawPolygon {
         } catch (NullPointerException e) {
             Log.e(TAG, location + " polygon not found");
         }
-
     }
 
     public void setDistricts(List<String> locationList, int fillColor, boolean showNames, int textColor) {
@@ -129,8 +128,21 @@ public class DrawPolygon {
         }                                                //basemap, country border map, district map, district name
     }
 
-    public void removeLastAddedOverlay() {
+    public void showOnlyDistrictOverlay() {
+        ListenableList<GraphicsOverlay> overlays = mMapView.getGraphicsOverlays();
+        while (overlays.size() >= 3) {
+            overlays.remove(overlays.size() - 1);
+        }
+    }
 
+    public void removeAllOverlays() {
+        ListenableList<GraphicsOverlay> overlays = mMapView.getGraphicsOverlays();
+        while (overlays.size() >= 1) {
+            overlays.remove(overlays.size() - 1);
+        }
+    }
+
+    public void removeLastAddedOverlay() {
         ListenableList<GraphicsOverlay> overlays = mMapView.getGraphicsOverlays();
         overlays.remove(overlays.size() - 1);
     }

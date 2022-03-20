@@ -22,21 +22,24 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".MainActivity"
-            android:configChanges="orientation|screenSize"></activity>
+            android:configChanges="orientation|screenSize" />
         <activity
             android:name=".NavigationTasks.UserDataInput.DataInputActivity"
             android:configChanges="screenSize|orientation" />
         <activity android:name=".NavigationTasks.Recommendation.RecommendActivity" />
-
         <activity
             android:name=".SplashActivity"
-            android:theme="@style/SplashTheme">
+            android:screenOrientation="portrait"
+            android:theme="@style/SplashTheme"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".NavigationTasks.Recommendation.CropCalendar.CropCalendar"
+            android:screenOrientation="landscape"></activity>
     </application>
 
 </manifest>

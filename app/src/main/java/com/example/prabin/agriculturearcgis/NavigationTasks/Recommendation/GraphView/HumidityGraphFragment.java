@@ -1,13 +1,13 @@
 package com.example.prabin.agriculturearcgis.NavigationTasks.Recommendation.GraphView;
 
 
-import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
+
+import androidx.fragment.app.Fragment;
 
 import com.example.prabin.agriculturearcgis.R;
 import com.github.mikephil.charting.charts.LineChart;
@@ -18,13 +18,12 @@ import com.github.mikephil.charting.data.LineDataSet;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Random;
 
 public class HumidityGraphFragment extends Fragment {
 
     LineChart humidityLineChart;
     String location;
-String year;
+    String year;
 
     public HumidityGraphFragment() {
 
@@ -38,13 +37,13 @@ String year;
         humidityLineChart = v.findViewById(R.id.graph_humidity_linechart);
 
         location = getArguments().getString("location").toLowerCase();
-        year = getArguments().getString("year").toLowerCase();
+        year = getArguments().getString("year");
 
         customizeChart();
         try {
             populateData();
         } catch (IOException e) {
-            Toast.makeText(getContext(), "Humidity data not found for " + location + "/" + year , Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "Humidity data not found for " + location + "/" + year, Toast.LENGTH_SHORT).show();
         }
 
         return v;
@@ -69,7 +68,7 @@ String year;
     }
 
 
-    private void populateData() throws IOException{
+    private void populateData() throws IOException {
 
         ArrayList<Entry> eMinHumidity = new ArrayList<>();
         ArrayList<Entry> eMaxHumidity = new ArrayList<>();
@@ -82,10 +81,10 @@ String year;
         double[] humidityMaxData = humidityFile.getDataFromFile(year, "humidity_max");
         double[] humidityAvgData = humidityFile.getDataFromFile(year, "humidity_avg");
 
-        for(int i = 0;i<12;i++) {
-            eMinHumidity.add(new Entry(i+1, (float) humidityMinData[i]));
-            eMaxHumidity.add(new Entry(i+1, (float) humidityMaxData[i]));
-            eAvgHumidity.add(new Entry(i+1, (float) humidityAvgData[i]));
+        for (int i = 0; i < 12; i++) {
+            eMinHumidity.add(new Entry(i + 1, (float) humidityMinData[i]));
+            eMaxHumidity.add(new Entry(i + 1, (float) humidityMaxData[i]));
+            eAvgHumidity.add(new Entry(i + 1, (float) humidityAvgData[i]));
         }
 
         LineDataSet dsMinHumidity = new LineDataSet(eMinHumidity, "Min");

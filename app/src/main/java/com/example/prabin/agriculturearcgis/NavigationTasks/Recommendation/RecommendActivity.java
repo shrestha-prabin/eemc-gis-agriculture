@@ -1,12 +1,14 @@
 package com.example.prabin.agriculturearcgis.NavigationTasks.Recommendation;
 
 import android.content.DialogInterface;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
-import android.support.v4.view.ViewPager;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
+import android.content.Intent;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentStatePagerAdapter;
+import androidx.viewpager.widget.ViewPager;
+
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -19,19 +21,28 @@ import android.widget.Toast;
 
 import com.example.prabin.agriculturearcgis.NavigationTasks.Recommendation.BayesClassifier.Attributes;
 import com.example.prabin.agriculturearcgis.NavigationTasks.Recommendation.BayesClassifier.BayesClassifier;
+import com.example.prabin.agriculturearcgis.NavigationTasks.Recommendation.CropCalendar.CropCalendar;
+import com.example.prabin.agriculturearcgis.NavigationTasks.Recommendation.GraphView.CSVFileReader;
 import com.example.prabin.agriculturearcgis.NavigationTasks.Recommendation.GraphView.HumidityGraphFragment;
 import com.example.prabin.agriculturearcgis.NavigationTasks.Recommendation.GraphView.RainfallGraphFragment;
 import com.example.prabin.agriculturearcgis.NavigationTasks.Recommendation.GraphView.TemperatureGraphFragment;
 import com.example.prabin.agriculturearcgis.R;
 
 import java.io.IOException;
+import java.util.Calendar;
 
 public class RecommendActivity extends AppCompatActivity implements SeekBar.OnSeekBarChangeListener, View.OnClickListener {
 
     String location = "Kathmandu";
     String year = "2017";
 
+    String currentYear = "2018 (Predicted)";
+
+    CSVFileReader dataFile;
+
     ViewPager mViewPager;
+    SeekBar seekMonthSelect;
+    TextView tvSelectedMonth;
 
     SeekBar seekTempMin, seekTempMax, seekHumidMin, seekHumidMax, seekHumidAvg, seekRainfall;
     TextView tvTempMin, tvTempMax, tvHumidMin, tvHumidMax, tvHumidAvg, tvRainfall;
@@ -41,6 +52,7 @@ public class RecommendActivity extends AppCompatActivity implements SeekBar.OnSe
     //values are 10 times the actual
     //to support the floating values
     double tempMin = 10, tempMax = 30, humidMin = 20, humidMax = 100, humidAvg = 70, rainfall = 200;
+    double tempMinAll[], tempMaxAll[], humidMinAll[], humidMaxAll[], humidAvgAll[], rainfallAll[];
 
     TextView tvSuitableList, tvNotSuitableList;
     ProgressBar progressBar;
@@ -56,6 +68,15 @@ public class RecommendActivity extends AppCompatActivity implements SeekBar.OnSe
         showLocationSelectionDialog();
         showYearSelectionSpinner();
 
+        readFileForLocation(location);
+        seekMonthSelect = findViewById(R.id.recommend_month_selector);
+        tvSelectedMonth = findViewById(R.id.recommend_selected_month);
+        int currentMonth = Calendar.getInstance().get(Calendar.MONTH);
+        seekMonthSelect.setProgress(currentMonth);
+        updateValuesForMonth(currentMonth);
+
+        seekMonthSelect.setOnSeekBarChangeListener(this);
+
         seekTempMin = findViewById(R.id.r_seekMinTemp);
         seekTempMax = findViewById(R.id.r_seekMaxTemp);
         seekHumidMin = findViewById(R.id.r_seekMinHumid);
@@ -69,14 +90,9 @@ public class RecommendActivity extends AppCompatActivity implements SeekBar.OnSe
         tvHumidMax = findViewById(R.id.r_tvMaxHumid);
         tvHumidAvg = findViewById(R.id.r_tvAvgHumid);
         tvRainfall = findViewById(R.id.r_tvRainfall);
-        updateTextViews();
 
-        seekTempMin.setProgress((int) tempMin * 10);
-        seekTempMax.setProgress((int) tempMax * 10);
-        seekHumidMin.setProgress((int) humidMin * 10);
-        seekHumidMax.setProgress((int) humidMax * 10);
-        seekHumidAvg.setProgress((int) humidAvg * 10);
-        seekRainfall.setProgress((int) rainfall * 10);
+        updateTextViews();
+        updateSeekBars();
 
         seekTempMin.setOnSeekBarChangeListener(this);
         seekTempMax.setOnSeekBarChangeListener(this);
@@ -92,6 +108,46 @@ public class RecommendActivity extends AppCompatActivity implements SeekBar.OnSe
 
         btnCheck = findViewById(R.id.r_btnCheck);
         btnCheck.setOnClickListener(this);
+
+        cropCalendar();
+    }
+
+    private void cropCalendar() {
+        findViewById(R.id.recommend_cropCalendar).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(RecommendActivity.this, CropCalendar.class));
+            }
+        });
+    }
+
+    private void readFileForLocation(String location) {
+        try {
+            dataFile = new CSVFileReader(this, location.toLowerCase());
+
+            tempMinAll = dataFile.getDataFromFile(currentYear, "temp_min");
+            tempMaxAll = dataFile.getDataFromFile(currentYear, "temp_max");
+            humidMinAll = dataFile.getDataFromFile(currentYear, "humidity_min");
+            humidMaxAll = dataFile.getDataFromFile(currentYear, "humidity_max");
+            humidAvgAll = dataFile.getDataFromFile(currentYear, "humidity_avg");
+            rainfallAll = dataFile.getDataFromFile(currentYear, "rain_total");
+
+        } catch (IOException e) {
+            Toast.makeText(this, "Data not found for " + location + "/2018", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void updateValuesForMonth(int month) {
+
+        tvSelectedMonth.setText("Selected Month: " + getMonth(month) + " " + currentYear);
+        if (dataFile != null) {            //file may not have been found
+            tempMin = tempMinAll[month];
+            tempMax = tempMaxAll[month];
+            humidMin = humidMinAll[month];
+            humidMax = humidMaxAll[month];
+            humidAvg = humidAvgAll[month];
+            rainfall = rainfallAll[month];
+        }
     }
 
     private void showLocationSelectionDialog() {
@@ -112,6 +168,7 @@ public class RecommendActivity extends AppCompatActivity implements SeekBar.OnSe
                     public void onClick(DialogInterface dialogInterface, int i) {
                         location = districts[i];
                         btnLocationSelect.setText(location);
+                        readFileForLocation(location);
                         //mViewPager.getAdapter().notifyDataSetChanged();
                         mViewPager.setAdapter(new GraphViewPagerAdapter(getSupportFragmentManager(), location, year));
 
@@ -149,6 +206,12 @@ public class RecommendActivity extends AppCompatActivity implements SeekBar.OnSe
     @Override
     public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
         switch (seekBar.getId()) {
+
+            case R.id.recommend_month_selector:
+                updateValuesForMonth(i);
+                updateSeekBars();
+                break;
+
             case R.id.r_seekMinTemp:
                 tempMin = (double) i / 10;
                 break;
@@ -171,7 +234,6 @@ public class RecommendActivity extends AppCompatActivity implements SeekBar.OnSe
                 break;
         }
         updateTextViews();
-
     }
 
     @Override
@@ -193,6 +255,15 @@ public class RecommendActivity extends AppCompatActivity implements SeekBar.OnSe
         tvRainfall.setText("Total (" + rainfall + ")");
     }
 
+    private void updateSeekBars() {
+        seekTempMin.setProgress((int) tempMin * 10);
+        seekTempMax.setProgress((int) tempMax * 10);
+        seekHumidMin.setProgress((int) humidMin * 10);
+        seekHumidMax.setProgress((int) humidMax * 10);
+        seekHumidAvg.setProgress((int) humidAvg * 10);
+        seekRainfall.setProgress((int) rainfall * 10);
+    }
+
     @Override
     public void onClick(View view) {
         if (view.getId() == R.id.r_btnCheck) {
@@ -207,11 +278,20 @@ public class RecommendActivity extends AppCompatActivity implements SeekBar.OnSe
                 Attributes attr = new Attributes(tempMin, tempMax, humidMin, humidMax, humidAvg, rainfall);
 
                 for (String crop : crops) {
-                    boolean isSuitable = classifier.testForCrop(crop, attr);
+                    /*boolean isSuitable = classifier.testForCrop(crop, attr);
                     if(isSuitable) {
                         sbSuitableCrop.append(crop + "\n");
                     } else {
                         sbNotSuitableCrop.append(crop + "\n");
+                    }*/
+
+                    double yesSuitable = classifier.testForCrop(crop, attr);
+                    if (yesSuitable > 50) {
+                        sbSuitableCrop.append(crop + " (" + yesSuitable + "%)\n");
+                        sbNotSuitableCrop.append("\n");
+                    } else {
+                        sbNotSuitableCrop.append(crop + " (" + yesSuitable + "%)\n");
+                        sbSuitableCrop.append("\n");
                     }
                 }
             } catch (IOException e) {
@@ -258,4 +338,35 @@ public class RecommendActivity extends AppCompatActivity implements SeekBar.OnSe
             return POSITION_NONE;
         }
     }
+
+    private String getMonth(int currentMonth) {
+        switch (currentMonth) {
+            case 0:
+                return "January";
+            case 1:
+                return "February";
+            case 2:
+                return "March";
+            case 3:
+                return "April";
+            case 4:
+                return "May";
+            case 5:
+                return "June";
+            case 6:
+                return "July";
+            case 7:
+                return "August";
+            case 8:
+                return "September";
+            case 9:
+                return "October";
+            case 10:
+                return "November";
+            case 11:
+                return "December";
+        }
+        return "Invalid";
+    }
+
 }

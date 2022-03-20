@@ -9,7 +9,7 @@
     android:weightSum="5"
     tools:context="com.example.prabin.agriculturearcgis.NavigationTasks.Recommendation.RecommendActivity">
 
-    <android.support.v7.widget.CardView
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -24,7 +24,8 @@
                 android:layout_height="wrap_content"
                 android:background="@color/colorPrimaryDark"
                 android:drawableStart="@drawable/recommend_location_select"
-                android:padding="8dp"
+                android:paddingEnd="8dp"
+                android:paddingStart="8dp"
                 android:text="Location"
                 android:textAllCaps="false"
                 android:textColor="@color/white" />
@@ -37,223 +38,338 @@
                 android:entries="@array/data_dates"
                 android:textAlignment="center" />
         </LinearLayout>
-    </android.support.v7.widget.CardView>
+    </androidx.cardview.widget.CardView>
 
-    <android.support.v4.view.ViewPager
+    <androidx.viewpager.widget.ViewPager
         android:id="@+id/recommend_graphViewPager"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="5">
+        android:layout_weight="5" />
 
-    </android.support.v4.view.ViewPager>
+    <TextView
+        android:id="@+id/recommend_selected_month"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+        android:text="Month Selected: January"
+        android:textSize="12sp" />
+
+    <SeekBar
+        android:id="@+id/recommend_month_selector"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:max="11"
+        android:theme="@style/Base.Widget.AppCompat.SeekBar.Discrete" />
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="0">
+        android:layout_weight="0"
+        android:background="@color/transparent_black">
 
-        <LinearLayout
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="8dp">
-
-            <android.support.constraint.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="8dp">
-
-                <TextView
-                    android:id="@+id/textView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Temperature (°C)"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/r_tvMinTemp"
-                    android:layout_width="85dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:text="Min"
-                    app:layout_constraintStart_toStartOf="@+id/textView"
-                    app:layout_constraintTop_toBottomOf="@+id/textView" />
-
-                <SeekBar
-                    android:id="@+id/r_seekMinTemp"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:max="400"
-                    app:layout_constraintBottom_toTopOf="@+id/r_tvMaxTemp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="@+id/r_seekMaxTemp"
-                    app:layout_constraintTop_toTopOf="@+id/r_tvMinTemp" />
-
-                <TextView
-                    android:id="@+id/r_tvMaxTemp"
-                    android:layout_width="85dp"
-                    android:layout_height="wrap_content"
-                    android:text="Max"
-                    app:layout_constraintStart_toStartOf="@+id/r_tvMinTemp"
-                    app:layout_constraintTop_toBottomOf="@+id/r_tvMinTemp" />
-
-                <SeekBar
-                    android:id="@+id/r_seekMaxTemp"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:max="400"
-                    app:layout_constraintBottom_toBottomOf="@+id/r_tvMaxTemp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/r_tvMaxTemp"
-                    app:layout_constraintTop_toTopOf="@+id/r_tvMaxTemp" />
-
-            </android.support.constraint.ConstraintLayout>
-
-            <android.support.constraint.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="8dp">
-
-                <TextView
-                    android:id="@+id/textView2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Relative Humidity(%)"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/r_tvMinHumid"
-                    android:layout_width="85dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:text="Min"
-                    app:layout_constraintStart_toStartOf="@+id/textView2"
-                    app:layout_constraintTop_toBottomOf="@+id/textView2" />
-
-                <SeekBar
-                    android:id="@+id/r_seekMinHumid"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:max="1000"
-                    app:layout_constraintBottom_toTopOf="@+id/r_tvMaxHumid"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="@+id/r_seekMaxHumid"
-                    app:layout_constraintTop_toTopOf="@+id/r_tvMinHumid" />
-
-                <TextView
-                    android:id="@+id/r_tvMaxHumid"
-                    android:layout_width="85dp"
-                    android:layout_height="wrap_content"
-                    android:text="Max"
-                    app:layout_constraintStart_toStartOf="@+id/r_tvMinHumid"
-                    app:layout_constraintTop_toBottomOf="@+id/r_tvMinHumid" />
-
-                <SeekBar
-                    android:id="@+id/r_seekMaxHumid"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:max="1000"
-                    app:layout_constraintBottom_toBottomOf="@+id/r_tvMaxHumid"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/r_tvMaxHumid"
-                    app:layout_constraintTop_toTopOf="@+id/r_tvMaxHumid" />
-
-                <TextView
-                    android:id="@+id/r_tvAvgHumid"
-                    android:layout_width="85dp"
-                    android:layout_height="wrap_content"
-                    android:text="Avg"
-                    app:layout_constraintStart_toStartOf="@+id/r_tvMaxHumid"
-                    app:layout_constraintTop_toBottomOf="@+id/r_tvMaxHumid" />
-
-                <SeekBar
-                    android:id="@+id/r_seekAvgHumid"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:max="1000"
-                    app:layout_constraintBottom_toBottomOf="@+id/r_tvAvgHumid"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="@+id/r_seekMaxHumid"
-                    app:layout_constraintTop_toBottomOf="@+id/r_tvMaxHumid" />
-
-            </android.support.constraint.ConstraintLayout>
-
-            <android.support.constraint.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="8dp">
-
-                <TextView
-                    android:id="@+id/textView3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Rainfall (mm)"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/r_tvRainfall"
-                    android:layout_width="85dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:text="Total"
-                    app:layout_constraintStart_toStartOf="@+id/textView3"
-                    app:layout_constraintTop_toBottomOf="@+id/textView3" />
-
-                <SeekBar
-                    android:id="@+id/r_seekRainfall"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:max="5000"
-                    app:layout_constraintBottom_toBottomOf="@+id/r_tvRainfall"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/r_tvRainfall"
-                    app:layout_constraintTop_toTopOf="@+id/r_tvRainfall" />
-
-            </android.support.constraint.ConstraintLayout>
-
-            <Button
-                android:id="@+id/r_btnCheck"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:background="@color/colorPrimary"
-                android:text="Check"
-                android:textAllCaps="false"
-                android:textColor="@color/white" />
-
-            <ProgressBar
-                android:id="@+id/r_progressbar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:visibility="gone" />
+            android:layout_marginBottom="1dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:weightSum="2">
+                android:orientation="vertical"
+                android:padding="8dp">
 
-                <TextView
-                    android:id="@+id/r_tvSuitableList"
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="8dp">
+
+                    <TextView
+                        android:id="@+id/textView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Temperature (°C)"
+                        android:textColor="@color/blueGrey900"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/r_tvMinTemp"
+                        android:layout_width="85dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="Min"
+                        android:textColor="@color/grey800"
+                        app:layout_constraintStart_toStartOf="@+id/textView"
+                        app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+                    <SeekBar
+                        android:id="@+id/r_seekMinTemp"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:max="400"
+                        android:progressDrawable="@drawable/seekbar_style"
+                        android:thumb="@drawable/custom_thumb"
+                        app:layout_constraintBottom_toTopOf="@+id/r_tvMaxTemp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/r_seekMaxTemp"
+                        app:layout_constraintTop_toTopOf="@+id/r_tvMinTemp" />
+
+                    <TextView
+                        android:id="@+id/r_tvMaxTemp"
+                        android:layout_width="85dp"
+                        android:layout_height="wrap_content"
+                        android:text="Max"
+                        android:textColor="@color/grey800"
+                        app:layout_constraintStart_toStartOf="@+id/r_tvMinTemp"
+                        app:layout_constraintTop_toBottomOf="@+id/r_tvMinTemp" />
+
+                    <SeekBar
+                        android:id="@+id/r_seekMaxTemp"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:max="400"
+                        android:progressDrawable="@drawable/seekbar_style"
+                        android:thumb="@drawable/custom_thumb"
+                        app:layout_constraintBottom_toBottomOf="@+id/r_tvMaxTemp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/r_tvMaxTemp"
+                        app:layout_constraintTop_toTopOf="@+id/r_tvMaxTemp" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="8dp">
+
+                    <TextView
+                        android:id="@+id/textView2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Relative Humidity(%)"
+                        android:textColor="@color/blueGrey900"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/r_tvMinHumid"
+                        android:layout_width="85dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="Min"
+                        android:textColor="@color/grey800"
+                        app:layout_constraintStart_toStartOf="@+id/textView2"
+                        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+
+                    <SeekBar
+                        android:id="@+id/r_seekMinHumid"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:max="1000"
+                        android:progressDrawable="@drawable/seekbar_style"
+                        android:thumb="@drawable/custom_thumb"
+                        app:layout_constraintBottom_toTopOf="@+id/r_tvMaxHumid"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/r_seekMaxHumid"
+                        app:layout_constraintTop_toTopOf="@+id/r_tvMinHumid" />
+
+                    <TextView
+                        android:id="@+id/r_tvMaxHumid"
+                        android:layout_width="85dp"
+                        android:layout_height="wrap_content"
+                        android:text="Max"
+                        android:textColor="@color/grey800"
+                        app:layout_constraintStart_toStartOf="@+id/r_tvMinHumid"
+                        app:layout_constraintTop_toBottomOf="@+id/r_tvMinHumid" />
+
+                    <SeekBar
+                        android:id="@+id/r_seekMaxHumid"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:max="1000"
+                        android:progressDrawable="@drawable/seekbar_style"
+                        android:thumb="@drawable/custom_thumb"
+                        app:layout_constraintBottom_toBottomOf="@+id/r_tvMaxHumid"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/r_tvMaxHumid"
+                        app:layout_constraintTop_toTopOf="@+id/r_tvMaxHumid" />
+
+                    <TextView
+                        android:id="@+id/r_tvAvgHumid"
+                        android:layout_width="85dp"
+                        android:layout_height="wrap_content"
+                        android:text="Avg"
+                        android:textColor="@color/grey800"
+                        app:layout_constraintStart_toStartOf="@+id/r_tvMaxHumid"
+                        app:layout_constraintTop_toBottomOf="@+id/r_tvMaxHumid" />
+
+                    <SeekBar
+                        android:id="@+id/r_seekAvgHumid"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:max="1000"
+                        android:progressDrawable="@drawable/seekbar_style"
+                        android:thumb="@drawable/custom_thumb"
+                        app:layout_constraintBottom_toBottomOf="@+id/r_tvAvgHumid"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/r_seekMaxHumid"
+                        app:layout_constraintTop_toBottomOf="@+id/r_tvMaxHumid" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="8dp">
+
+                    <TextView
+                        android:id="@+id/textView3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Rainfall (mm)"
+                        android:textColor="@color/blueGrey900"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/r_tvRainfall"
+                        android:layout_width="85dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="Total"
+                        android:textColor="@color/grey800"
+                        app:layout_constraintStart_toStartOf="@+id/textView3"
+                        app:layout_constraintTop_toBottomOf="@+id/textView3" />
+
+                    <SeekBar
+                        android:id="@+id/r_seekRainfall"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:max="5000"
+                        android:progressDrawable="@drawable/seekbar_style"
+                        android:thumb="@drawable/custom_thumb"
+                        app:layout_constraintBottom_toBottomOf="@+id/r_tvRainfall"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/r_tvRainfall"
+                        app:layout_constraintTop_toTopOf="@+id/r_tvRainfall" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <Button
+                    android:id="@+id/r_btnCheck"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textAlignment="center"
-                    android:textColor="@color/colorPrimaryDark" />
+                    android:layout_gravity="center_horizontal"
+                    android:background="@color/colorPrimary"
+                    android:text="Check"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white" />
 
-                <TextView
-                    android:id="@+id/r_tvNotSuitableList"
+                <ProgressBar
+                    android:id="@+id/r_progressbar"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textAlignment="center"
-                    android:textColor="@color/lightRed" />
+                    android:layout_gravity="center_horizontal"
+                    android:visibility="gone" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:weightSum="2">
+
+                    <TextView
+                        android:id="@+id/r_tvSuitableListTitle"
+                        android:layout_width="150dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:layout_weight="1"
+                        android:background="@color/brightBlue"
+                        android:paddingBottom="8dp"
+                        android:paddingEnd="16dp"
+                        android:paddingStart="16dp"
+                        android:paddingTop="8dp"
+                        android:text="Suitable"
+                        android:textAlignment="center"
+                        android:textColor="@color/white"
+                        android:textSize="16sp"
+                        app:layout_constraintEnd_toStartOf="@+id/r_tvNotSuitableListTitle"
+                        app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintHorizontal_chainStyle="packed"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/r_tvNotSuitableListTitle"
+                        android:layout_width="150dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:layout_weight="1"
+                        android:background="@color/lightRed"
+                        android:paddingBottom="8dp"
+                        android:paddingEnd="16dp"
+                        android:paddingStart="16dp"
+                        android:paddingTop="8dp"
+                        android:text="Unsuitable"
+                        android:textAlignment="center"
+                        android:textColor="@color/white"
+                        android:textSize="16sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintStart_toEndOf="@+id/r_tvSuitableListTitle"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/r_tvSuitableList"
+                        android:layout_width="150dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@color/white"
+                        android:paddingBottom="8dp"
+                        android:paddingEnd="16dp"
+                        android:paddingStart="16dp"
+                        android:paddingTop="8dp"
+                        android:textAlignment="center"
+                        android:textColor="@color/brightBlue"
+                        android:textSize="16sp"
+                        app:layout_constraintEnd_toStartOf="@+id/r_tvNotSuitableList"
+                        app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintHorizontal_chainStyle="packed"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/r_tvSuitableListTitle" />
+
+                    <TextView
+                        android:id="@+id/r_tvNotSuitableList"
+                        android:layout_width="150dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@color/white"
+                        android:paddingBottom="8dp"
+                        android:paddingEnd="16dp"
+                        android:paddingStart="16dp"
+                        android:paddingTop="8dp"
+                        android:textAlignment="center"
+                        android:textColor="@color/lightRed"
+                        android:textSize="16sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintStart_toEndOf="@+id/r_tvSuitableList"
+                        app:layout_constraintTop_toBottomOf="@+id/r_tvNotSuitableListTitle" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <Button android:id="@+id/recommend_cropCalendar"
+                    android:layout_width="300dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:background="@color/colorPrimaryDark"
+                    android:text="Show Crop Calendar"
+                    android:textColor="@color/white"
+                    android:textAllCaps="false" />
             </LinearLayout>
-        </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
     </ScrollView>
 
 </LinearLayout>

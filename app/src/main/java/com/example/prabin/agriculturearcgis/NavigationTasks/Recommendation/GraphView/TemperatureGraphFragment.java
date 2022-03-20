@@ -1,14 +1,13 @@
 package com.example.prabin.agriculturearcgis.NavigationTasks.Recommendation.GraphView;
 
 
-import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.fragment.app.Fragment;
 
 import com.example.prabin.agriculturearcgis.R;
 import com.github.mikephil.charting.charts.LineChart;
@@ -19,7 +18,6 @@ import com.github.mikephil.charting.data.LineDataSet;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Random;
 
 public class TemperatureGraphFragment extends Fragment {
 

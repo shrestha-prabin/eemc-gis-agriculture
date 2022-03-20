@@ -5,7 +5,6 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
-import android.support.constraint.ConstraintLayout;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -14,7 +13,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.esri.arcgisruntime.mapping.view.MapView;
-import com.example.prabin.agriculturearcgis.Data.DistrictData;
 import com.example.prabin.agriculturearcgis.DrawPolygon;
 import com.example.prabin.agriculturearcgis.HelperClasses.ColorClass;
 import com.example.prabin.agriculturearcgis.HelperClasses.ColorRGB;
@@ -49,7 +47,7 @@ public class ProductionHandler {
         mBtnCropSelector = ((Activity) mContext).findViewById(R.id.main_button_crop_select);
         mBtnLegendToggle = ((Activity) mContext).findViewById(R.id.main_button_legend_toggle);
         mBtnLegendToggle.setVisibility(View.GONE);
-        mBtnNameToggle = ((Activity)mContext).findViewById(R.id.main_button_name_toggle);
+        mBtnNameToggle = ((Activity) mContext).findViewById(R.id.main_button_name_toggle);
 
         mMapView = ((Activity) mContext).findViewById(R.id.main_mapview);
 
@@ -66,7 +64,7 @@ public class ProductionHandler {
                 toggleLegend();
             }
         });
-        
+
         mBtnNameToggle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -117,68 +115,68 @@ public class ProductionHandler {
 
                 if (dataSnapshot.exists()) {
 
+                    //store location name and production value
                     HashMap<String, Long> data = (HashMap<String, Long>) dataSnapshot.getValue();
                     //data = HelperClass.sortByComparator(data);      //sort in ascending order by value
 
                     //for debug only
-                    /*for (Map.Entry<String, Long> entry : data.entrySet()) {
+                    for (Map.Entry<String, Long> entry : data.entrySet()) {
                         String key = entry.getKey();
                         long value = entry.getValue();
                         Log.d("VALUES", key + "\t" + value);
-                    }*/
+                    }
+
+                    //HashMap<String, Long> data = new CSVProductionFileReader(mContext, "2016").getDataForCrop(crop.toLowerCase().trim());
 
                     long maxValue = HelperClass.maxValueHashMap(data);  //27856
                     long legendMaxValue = HelperClass.getNearestValueInThousand(maxValue);  //27000
-                    int factor = (int) legendMaxValue / 5;  //5400
+                    int factor = (int) legendMaxValue / 4;  //6750
 
-                    long legendLv6 = legendMaxValue;                //27000
-                    long legendLv5 = legendMaxValue - factor;       //21600
-                    long legendLv4 = legendMaxValue - 2 * factor;    //16200
-                    long legendLv3 = legendMaxValue - 3 * factor;    //10800
-                    long legendLv2 = legendMaxValue - 4 * factor;    //5400
-                    long legendLv1 = legendMaxValue - 5 * factor;     //0
+                    long legendLv4 = legendMaxValue;                //27000
+                    long legendLv3 = legendMaxValue - factor;       //20250
+                    long legendLv2 = legendMaxValue - 2 * factor;    //13500
+                    long legendLv1 = legendMaxValue - 3 * factor;    //6750
+                    long legendLv0 = legendMaxValue - 4 * factor;    //0
 
                     //Each list holds data for particular range
-                    List<String> list1 = new ArrayList<>();
-                    List<String> list2 = new ArrayList<>();
-                    List<String> list3 = new ArrayList<>();
-                    List<String> list4 = new ArrayList<>();
                     List<String> list5 = new ArrayList<>();
-                    List<String> list6 = new ArrayList<>();
+                    List<String> list4 = new ArrayList<>();
+                    List<String> list3 = new ArrayList<>();
+                    List<String> list2 = new ArrayList<>();
+                    List<String> list1 = new ArrayList<>();
+                    List<String> list0 = new ArrayList<>();
 
                     for (Map.Entry<String, Long> entry : data.entrySet()) {
 
                         String key = entry.getKey();
                         long value = entry.getValue();
 
-                        if (value >= legendLv6) {                                                //value >= 27000
-                            list1.add(key);
-                        } else if (value >= legendLv5 && value < legendLv6) {                    //27000 >= value > 21600
-                            list2.add(key);
-                        } else if (value >= legendLv4 && value < legendLv5) {                   //21600 >= value > 16200
-                            list3.add(key);
-                        } else if (value >= legendLv3 && value < legendLv4) {                   //16200 >= value > 10800
-                            list4.add(key);
-                        } else if (value <= legendLv2 && value > legendLv1) {                    //0 < value <= 5400
+                        if (value >= legendLv4) {                                                //value >= 27000
                             list5.add(key);
-                        } else if (value == legendLv1) {                                          //value = 0
-                            list6.add(key);
-                        }
+                        } else if (value >= legendLv3 && value < legendLv4) {                    //20250 >= value < 27000
+                            list4.add(key);
+                        } else if (value >= legendLv2 && value < legendLv3) {                   //13500 >= value < 20250
+                            list3.add(key);
+                        } else if (value >= legendLv1 && value < legendLv2) {                   //6750 >= value <13500
+                            list2.add(key);
+                        } else if (value <= legendLv1) {                                         //0 < value <= 6750
+                            list1.add(key);
+                        } else if (value == legendLv0)                                           //value = 0
+                            list0.add(key);
                     }
 
                     //Six color shades, color shade at 6th is white
                     List<Integer> colorShades = ColorClass.getColorShades(color);
 
                     //draw polygons
-                    new DrawPolygon(mContext).setDistricts(list1, colorShades.get(0), true, Color.BLACK);
-                    new DrawPolygon(mContext).setDistricts(list2, colorShades.get(1), true, Color.BLACK);
+                    new DrawPolygon(mContext).setDistricts(list0, colorShades.get(5), true, Color.BLACK);
+                    new DrawPolygon(mContext).setDistricts(list1, colorShades.get(4), true, Color.BLACK);
+                    new DrawPolygon(mContext).setDistricts(list2, colorShades.get(3), true, Color.BLACK);
                     new DrawPolygon(mContext).setDistricts(list3, colorShades.get(2), true, Color.BLACK);
-                    new DrawPolygon(mContext).setDistricts(list4, colorShades.get(3), true, Color.BLACK);
-                    new DrawPolygon(mContext).setDistricts(list5, colorShades.get(4), true, Color.BLACK);
-                    new DrawPolygon(mContext).setDistricts(list6, colorShades.get(5), true, Color.BLACK);
+                    new DrawPolygon(mContext).setDistricts(list4, colorShades.get(1), true, Color.BLACK);
+                    new DrawPolygon(mContext).setDistricts(list5, colorShades.get(0), true, Color.BLACK);
 
-                    showLegend(legendLv6, legendLv5, legendLv4, legendLv3, legendLv2, legendLv1, colorShades);
-
+                    showLegend(legendLv4, legendLv3, legendLv2, legendLv1, legendLv0, colorShades);
                 }
             }
 
@@ -189,7 +187,7 @@ public class ProductionHandler {
         });
     }
 
-    private void showLegend(long lv6, long lv5, long lv4, long lv3, long lv2, long lv1, List<Integer> colorShades) {
+    private void showLegend(long lv4, long lv3, long lv2, long lv1, long lvl0, List<Integer> colorShades) {
 
         ImageView iv1, iv2, iv3, iv4, iv5, iv6;
         TextView tv1, tv2, tv3, tv4, tv5, tv6;
@@ -215,11 +213,11 @@ public class ProductionHandler {
         iv5.setBackgroundColor(colorShades.get(1));
         iv6.setBackgroundColor(colorShades.get(0));
 
-        tv6.setText("Above " + lv6);
-        tv5.setText(lv5 + " - " + lv4);
-        tv4.setText(lv4 + " - " + lv3);
-        tv3.setText(lv3 + " - " + lv2);
-        tv2.setText("Less than " + lv2);
+        tv6.setText("Above " + lv4);
+        tv5.setText(lv3 + " - " + lv4);
+        tv4.setText(lv2 + " - " + lv3);
+        tv3.setText(lv1 + " - " + lv2);
+        tv2.setText("Less than " + lv1);
         tv1.setText("No Production");
         ((Activity) mContext).findViewById(R.id.main_legend).setVisibility(View.VISIBLE);
     }

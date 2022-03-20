@@ -2,16 +2,16 @@ package com.example.prabin.agriculturearcgis;
 
 import android.Manifest;
 import android.app.Dialog;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Environment;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
+
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.appcompat.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -29,16 +29,13 @@ import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.Basemap;
 import com.esri.arcgisruntime.mapping.Viewpoint;
 import com.esri.arcgisruntime.mapping.view.MapView;
-import com.esri.arcgisruntime.symbology.SimpleMarkerSymbol;
-import com.esri.arcgisruntime.symbology.SimpleRenderer;
-import com.esri.arcgisruntime.symbology.UniqueValueRenderer;
-import com.example.prabin.agriculturearcgis.Data.District;
 import com.example.prabin.agriculturearcgis.Data.State;
 import com.example.prabin.agriculturearcgis.NavigationTasks.GeographyHandler;
-import com.example.prabin.agriculturearcgis.NavigationTasks.InfrastructuresHandler;
+import com.example.prabin.agriculturearcgis.NavigationTasks.Infrastructure.InfrastructuresHandler;
 import com.example.prabin.agriculturearcgis.NavigationTasks.ProductionHandler;
 import com.example.prabin.agriculturearcgis.NavigationTasks.Recommendation.RecommendActivity;
 import com.example.prabin.agriculturearcgis.NavigationTasks.UserDataInput.DataInputActivity;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -57,6 +54,8 @@ public class MainActivity extends AppCompatActivity {
     private Button mBtnGeoPropertySelector;
     private Button mBtnInfrastructureSelector;
 
+    private Button mBtnNameToggle;
+
     private Envelope createEnvelope() {
         Envelope envelope = new Envelope(78.72803, 30.93050, 89.63745, 26.10612, SpatialReferences.getWgs84());
         return envelope;
@@ -74,6 +73,7 @@ public class MainActivity extends AppCompatActivity {
         mBtnCropSelector = findViewById(R.id.main_button_crop_select);
         mBtnGeoPropertySelector = findViewById(R.id.main_button_geo_property);
         mBtnInfrastructureSelector = findViewById(R.id.main_button_infrastructure);
+        mBtnNameToggle = findViewById(R.id.main_button_name_toggle);
 
         addItemsBottomNavigation();
         handleBottomNavigationTabs();
@@ -87,6 +87,7 @@ public class MainActivity extends AppCompatActivity {
         //hide selector buttons of navigation except for first
         mBtnGeoPropertySelector.setVisibility(View.GONE);
         mBtnInfrastructureSelector.setVisibility(View.GONE);
+        mBtnNameToggle.setVisibility(View.GONE);
 
         mMap = new ArcGISMap(Basemap.createLightGrayCanvas());
         mMap.setMinScale(10000000);//zoom out scale
@@ -215,6 +216,7 @@ public class MainActivity extends AppCompatActivity {
                 mBtnCropSelector.setVisibility(View.GONE);
                 mBtnGeoPropertySelector.setVisibility(View.GONE);
                 mBtnInfrastructureSelector.setVisibility(View.GONE);
+                mBtnNameToggle.setVisibility(View.GONE);
 
                 //hide legend on changing navigation item
                 findViewById(R.id.main_legend).setVisibility(View.GONE);
@@ -230,6 +232,7 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     case 2:
                         mBtnInfrastructureSelector.setVisibility(View.VISIBLE);
+                        mBtnNameToggle.setVisibility(View.VISIBLE);
                         break;
                     case 3:
                         startActivity(new Intent(MainActivity.this, RecommendActivity.class));

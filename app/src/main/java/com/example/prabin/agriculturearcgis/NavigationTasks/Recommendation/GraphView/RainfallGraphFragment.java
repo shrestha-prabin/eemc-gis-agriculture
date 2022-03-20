@@ -1,13 +1,13 @@
 package com.example.prabin.agriculturearcgis.NavigationTasks.Recommendation.GraphView;
 
 
-import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
+
+import androidx.fragment.app.Fragment;
 
 import com.example.prabin.agriculturearcgis.R;
 import com.github.mikephil.charting.charts.BarChart;
@@ -17,16 +17,11 @@ import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
-import com.github.mikephil.charting.data.Entry;
-import com.github.mikephil.charting.data.LineData;
-import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 
 import java.io.IOException;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Random;
 
 public class RainfallGraphFragment extends Fragment {
 
@@ -45,13 +40,13 @@ public class RainfallGraphFragment extends Fragment {
 
         rainfallBarChart = v.findViewById(R.id.graph_rainfall_barchart);
         location = getArguments().getString("location").toLowerCase();
-        year = getArguments().getString("year").toLowerCase();
+        year = getArguments().getString("year");
 
         customizeChart();
         try {
             populateData();
         } catch (IOException e) {
-            Toast.makeText(getContext(), "Rainfall data not found for " + location + "/" + year , Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "Rainfall data not found for " + location + "/" + year, Toast.LENGTH_SHORT).show();
         }
         return v;
     }
